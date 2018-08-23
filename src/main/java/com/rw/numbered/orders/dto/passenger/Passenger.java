@@ -6,16 +6,14 @@ import java.util.Date;
 
 @Data
 public class Passenger {
-    private int type;
-    private int tarif;
-    private String firstname;
+    private int id;
+    private String firstName;
     private String patronymic;
-    private String lastname;
+    private String lastName;
     private int placesCount=1;
     private String sex;
-    private boolean useSex;
     private Date birthday;
-    private int passNum;
     private String country = "BLR";
-    PassengerDoc passengerDoc;
+    private String documentType ;
+    private String documentNumber;
 }

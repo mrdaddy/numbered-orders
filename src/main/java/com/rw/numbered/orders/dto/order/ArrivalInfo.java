@@ -11,5 +11,4 @@ public class ArrivalInfo {
     private String time;
     private String stationName;
     private String stationCode;
-
 }

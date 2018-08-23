@@ -29,10 +29,10 @@ public class Order {
     private String addSign;
     private String timeDesc;
     private String trainType;
+    private boolean globalPrice;
 
     private OrderRegistration orderRegistration;
 
-    private boolean globalPrice;
     private boolean returnAllowed;
 
     private Date paymentStartTime;

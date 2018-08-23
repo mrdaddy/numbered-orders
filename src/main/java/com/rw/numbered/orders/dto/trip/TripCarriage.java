@@ -1,9 +1,9 @@
-package com.rw.numbered.orders.dto.order;
+package com.rw.numbered.orders.dto.trip;
 
 import lombok.Data;
 
 @Data
-public class OrderCarriage {
+public class TripCarriage {
     private String no;
     private String typeCode;
     private String typeName;
@@ -11,9 +11,4 @@ public class OrderCarriage {
     private String serviceClassCode;
     private String serviceClassDesc;
     private String serviceClassIntCode;
-    private String owner;
-    private String carrier;
-    private String genderSign;
-    private String genderSignAdd;
-    private String addSign;
 }

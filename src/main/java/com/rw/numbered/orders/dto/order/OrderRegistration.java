@@ -12,6 +12,4 @@ public class OrderRegistration {
     private Date regTime;
     private Date stopTime;
     private boolean withASMBP;
-
-
 }

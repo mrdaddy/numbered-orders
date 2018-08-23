@@ -1,15 +1,13 @@
 package com.rw.numbered.orders.validators;
 
-import com.rw.numbered.orders.dto.order.Order;
-import org.springframework.stereotype.Component;
+import com.rw.numbered.orders.dto.trip.TripInformation;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-public class OrderNewValidator implements Validator {
+public class TripInformationValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
-        return Order.class.equals(clazz);
+        return TripInformation.class.equals(clazz);
     }
 
     @Override
@@ -17,9 +15,9 @@ public class OrderNewValidator implements Validator {
 
         //ValidationUtils.rejectIfEmpty(e, "name", "name.empty");
 
-        Order order = (Order) target;
-        if(order.getId()==1) {
-            e.reject("test validation");
+        TripInformation tripInformation = (TripInformation) target;
+        if(tripInformation.getArrStationCode().equals("string")) {
+            e.reject("gvCode","test validation");
         }
         //perform additional checks
         //if name already exists or ?
