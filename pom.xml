@@ -114,7 +114,9 @@
         <dependency>
             <groupId>com.rw.xml</groupId>
             <artifactId>xmlgate</artifactId>
+            <version>1.0</version>
         </dependency>
+
         <!-- <dependency>
             <groupId>com.openshift</groupId>
             <artifactId>openshift-restclient-java</artifactId>

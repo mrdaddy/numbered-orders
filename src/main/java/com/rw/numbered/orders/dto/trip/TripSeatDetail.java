@@ -1,15 +1,40 @@
 package com.rw.numbered.orders.dto.trip;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
+
 @Data
+@ApiModel(description = "Информация о выбранных местах")
 public class TripSeatDetail {
-    public enum PART_TYPES {N, S, C}
-    private String numFrom;
-    private String numTo;
+    public enum PART_TYPES {ONE_SECTION, ONE_COUPE}
+    public enum SEX_TYPES {MAN, WOMAN, MIXED}
+
+    @ApiModelProperty(example = "1", required = false, value = "Номер первого места интервала", dataType = "int")
+    @Max(999)
+    private int numFrom;
+
+    @ApiModelProperty(example = "2", required = false, value = "Номер последнего места интервала", dataType = "int")
+    @Max(999)
+    private int numTo;
+
+    @ApiModelProperty(example = "1", required = false, value = "Предполагаемое количество нижних мест", dataType = "int")
+    @Max(2)
     private int downCount;
+
+    @ApiModelProperty(example = "1", required = false, value = "Предполагаемое количество верхних мест", dataType = "int")
+    @Max(4)
     private int upCount;
-    private String sexCoupeType;
+
+    @ApiModelProperty(example = "MAN", required = false, value = "Тип купэ для М/Ж вагонов: MAN - мужское, WOMAN - женское, MIXED - смешанное", dataType = "String")
+    private SEX_TYPES sexCoupeType;
+
+    @ApiModelProperty(example = "MAN", required = false, value = "Признак объединения мест в одно купэ или отсек: ONE_SECTION - мужское, ONE_COUPE - женское, MIXED - смешанное", dataType = "String")
     private PART_TYPES partType;
+
+    @ApiModelProperty(example = "true", required = false, value = "Признак, включено ли в стоимость постельное бельё", dataType = "boolean")
     private boolean includedBedding;
 }
