@@ -32,9 +32,9 @@ public class TripSeatDetail {
     @ApiModelProperty(example = "MAN", required = false, value = "Тип купэ для М/Ж вагонов: MAN - мужское, WOMAN - женское, MIXED - смешанное", dataType = "String")
     private SEX_TYPES sexCoupeType;
 
-    @ApiModelProperty(example = "MAN", required = false, value = "Признак объединения мест в одно купэ или отсек: ONE_SECTION - мужское, ONE_COUPE - женское, MIXED - смешанное", dataType = "String")
+    @ApiModelProperty(example = "ONE_SECTION", required = false, value = "Признак объединения мест в одно купэ или отсек: ONE_SECTION - мужское, ONE_COUPE - женское, MIXED - смешанное", dataType = "String")
     private PART_TYPES partType;
 
     @ApiModelProperty(example = "true", required = false, value = "Признак, включено ли в стоимость постельное бельё", dataType = "boolean")
-    private boolean includedBedding;
+    private boolean isIncludedBedding;
 }

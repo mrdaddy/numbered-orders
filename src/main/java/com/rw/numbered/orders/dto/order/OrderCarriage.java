@@ -1,8 +1,10 @@
 package com.rw.numbered.orders.dto.order;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @Data
+@ApiModel(description = "Информация о вагоне из заказа")
 public class OrderCarriage {
     private String no;
     private String typeCode;

@@ -12,11 +12,11 @@ public class OrderService {
     @Autowired
     OrderDao orderDao;
 
-    @Autowired
+   /* @Autowired
     XMLGateService xmlGateService;
-
+*/
     public Order createOrder(TripInformation tripInformation) {
-        BuyTicketResponse etInfo = xmlGateService.buyTicket(tripInformation);
+       // BuyTicketResponse etInfo = xmlGateService.buyTicket(tripInformation);
         return new Order();
     }
 
