@@ -20,7 +20,7 @@ public class DepartureInfo {
     @ApiModelProperty(example = "14:02", required = true, value = "Время отправления (местное)", dataType = "String")
     private String time;
 
-    @ApiModelProperty(example = "МИНСК-ПАССАЖИРСКИЙ", required = true, value = "Наименование станции отправления", dataType = "String")
+    @ApiModelProperty(example = "МИНСК-ПАССАЖИРСКИЙ", required = true, value = "Наименование станции отправления на языке пользователя в момент создания заказа", dataType = "String")
     private String stationName;
 
     @ApiModelProperty(example = "2100182", required = true, value = "Код станции отправления", dataType = "String")

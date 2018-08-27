@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @ApiModel(description = "Информация о выбранных местах")
 public class TripSeatDetail {
     public enum PART_TYPES {ONE_SECTION, ONE_COUPE}
-    public enum SEX_TYPES {MAN, WOMAN, MIXED}
+    public enum SEX_TYPES {MALE, FEMALE, MIXED}
 
     @ApiModelProperty(example = "1", required = false, value = "Номер первого места интервала", dataType = "int")
     @Max(999)
@@ -29,8 +29,8 @@ public class TripSeatDetail {
     @Max(4)
     private int upCount;
 
-    @ApiModelProperty(example = "MAN", required = false, value = "Тип купэ для М/Ж вагонов: MAN - мужское, WOMAN - женское, MIXED - смешанное", dataType = "String")
-    private SEX_TYPES sexCoupeType;
+    @ApiModelProperty(example = "MALE", required = false, value = "Тип купэ для М/Ж вагонов: MALE - мужское, FEMALE - женское, MIXED - смешанное", dataType = "String")
+    private SEX_TYPES compartmentType;
 
     @ApiModelProperty(example = "ONE_SECTION", required = false, value = "Признак объединения мест в одно купэ или отсек: ONE_SECTION - мужское, ONE_COUPE - женское, MIXED - смешанное", dataType = "String")
     private PART_TYPES partType;

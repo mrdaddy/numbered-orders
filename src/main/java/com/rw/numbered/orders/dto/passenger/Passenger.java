@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Data
+@ApiModel(description = "Данные о пассажире")
 public class Passenger {
     public enum SEX_TYPE {M,F}
     @ApiModelProperty(example = "1", required = false, value = "Уникальный идентификатор пассажира из СППД. Если пассажир вводится первый раз - заполнять не нужно", dataType = "long")
