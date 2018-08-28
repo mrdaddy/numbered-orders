@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @Api(value="orders/pdf", description="Сервис получения бланков нумерованных заказов и квитанций разных сборов в формате PDF", tags = "Получение бланков заказов и ЭПД в формате PDF", basePath="/orders/pdf")
 @RequestMapping(produces = MediaType.APPLICATION_PDF_VALUE, path = "/${service.version}/numbered/orders")
 
-@ApiResponses(value = {
-        @ApiResponse(code = 400, message = "Bad request", response = ErrorMessage.class, responseContainer = "List")
-})
 public class PDFController extends BaseController {
     @Autowired
     PDFService pdfService;

@@ -28,9 +28,6 @@ import java.util.List;
 @Api(value="orders", description="Сервис базовых операций с заказами пользователя", tags = "Основные операции с заказами пользователя", basePath="/orders")
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/${service.version}/numbered/orders")
 
-@ApiResponses(value = {
-        @ApiResponse(code = 400, message = "Bad request", response = ErrorMessage.class, responseContainer = "List")
-})
 public class OrderController extends BaseController{
 
     @Autowired

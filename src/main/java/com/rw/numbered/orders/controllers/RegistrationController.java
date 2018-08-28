@@ -16,9 +16,6 @@ import javax.validation.Valid;
 @Api(value="orders/reg", description="Сервис операций, связанных с электронной регистрацией с заказами пользователя", tags = "Операции с заказами и ЭПД, связанные с электронной регистрацией", basePath="/orders/reg")
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/${service.version}/numbered/orders/reg")
 
-@ApiResponses(value = {
-        @ApiResponse(code = 400, message = "Bad request", response = ErrorMessage.class, responseContainer = "List")
-})
 public class RegistrationController extends BaseController {
     @Autowired
     RegistrationService registrationService;

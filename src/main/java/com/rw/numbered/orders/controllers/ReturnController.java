@@ -16,9 +16,6 @@ import javax.validation.Valid;
 @Api(value="orders/return", description="Сервис операций, связанных с возвратом заказов и билетов", tags = "Операции с заказами и ЭПД, связанные с возвратом", basePath="/orders/return")
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/${service.version}/numbered/orders/return")
 
-@ApiResponses(value = {
-        @ApiResponse(code = 400, message = "Bad request", response = ErrorMessage.class, responseContainer = "List")
-})
 public class ReturnController extends BaseController {
     @Autowired
     ReturnService returnService;

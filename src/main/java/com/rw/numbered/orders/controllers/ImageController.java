@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @Api(value="orders/image", description="Сервис получения штриховых кодов ЭПД (штриховой код проездного документа и 2D штриховой код документа)", tags = "Получение штриховых кодов ЭПД", basePath="/orders/image")
 @RequestMapping(produces = MediaType.IMAGE_PNG_VALUE, path = "/${service.version}/numbered/orders")
 
-@ApiResponses(value = {
-        @ApiResponse(code = 400, message = "Bad request", response = ErrorMessage.class, responseContainer = "List")
-})
 public class ImageController extends BaseController {
     @Autowired
     ImageService imageService;
