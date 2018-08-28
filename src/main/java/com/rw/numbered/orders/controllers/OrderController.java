@@ -50,7 +50,7 @@ public class OrderController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    @ApiOperation(value = "Оформление нового заказа")
+    @ApiOperation(value = "Создание нового заказа")
     @ResponseStatus( HttpStatus.CREATED )
     public Order createOrder(@Valid @RequestBody @ApiParam OrderingInformation orderingInformation) {
         return orderService.createOrder(orderingInformation);
