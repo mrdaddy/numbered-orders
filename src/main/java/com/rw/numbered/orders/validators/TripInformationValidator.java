@@ -8,18 +8,14 @@ import org.springframework.validation.Validator;
 public class TripInformationValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
-        return TripInformation.class.equals(clazz);
+        return OrderingInformation.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors e) {
 
-        //ValidationUtils.rejectIfEmpty(e, "name", "name.empty");
-
         OrderingInformation orderingInformation = (OrderingInformation) target;
         if(orderingInformation.getArrStationCode().equals("string")) {
             e.reject("gvCode","test validation");
         }
-        //perform additional checks
-        //if name already exists or ?
     }}

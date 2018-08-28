@@ -19,7 +19,7 @@ import javax.validation.Valid;
 @ApiResponses(value = {
         @ApiResponse(code = 400, message = "Bad request", response = ErrorMessage.class, responseContainer = "List")
 })
-public class RegistrationController {
+public class RegistrationController extends BaseController {
     @Autowired
     RegistrationService registrationService;
 

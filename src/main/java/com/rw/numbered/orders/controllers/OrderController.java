@@ -31,7 +31,7 @@ import java.util.List;
 @ApiResponses(value = {
         @ApiResponse(code = 400, message = "Bad request", response = ErrorMessage.class, responseContainer = "List")
 })
-public class OrderController {
+public class OrderController extends BaseController{
 
     @Autowired
     OrderService orderService;
@@ -77,14 +77,4 @@ public class OrderController {
         return orderService.getOrders(filter);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleInvalidRequest(MethodArgumentNotValidException e, WebRequest request) {
-        List<ErrorMessage> errors = new ArrayList<ErrorMessage>();
-        if(e.getBindingResult().hasErrors()) {
-            for(ObjectError oe: e.getBindingResult().getAllErrors()) {
-                ErrorMessage errorMessage = new ErrorMessage(oe.getCodes()[0],oe.getDefaultMessage());
-                errors.add(errorMessage);
-            }
-        }
-        return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
-    }}
+}

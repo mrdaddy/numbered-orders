@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @ApiResponses(value = {
         @ApiResponse(code = 400, message = "Bad request", response = ErrorMessage.class, responseContainer = "List")
 })
-public class PDFController {
+public class PDFController extends BaseController {
     @Autowired
     PDFService pdfService;
 
