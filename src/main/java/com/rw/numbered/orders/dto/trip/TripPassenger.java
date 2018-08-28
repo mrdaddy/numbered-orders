@@ -3,10 +3,12 @@ package com.rw.numbered.orders.dto.trip;
 import com.rw.numbered.orders.dto.passenger.Passenger;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
+@Data
 @ApiModel(description = "Данные о пассажире для формирования заказа")
 public class TripPassenger extends Passenger {
     public enum PASSENGER_TYPE {ADULT, CHILD_WITH_PLACE, CHILD_WITHOUT_PLACE}

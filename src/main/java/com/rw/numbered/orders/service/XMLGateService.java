@@ -4,6 +4,7 @@ import by.iba.railway.eticket.xml.RailWayServiceFactory;
 import by.iba.railway.eticket.xml.objs.response.eticket.BuyTicketResponse;
 import by.iba.railway.eticket.xml.services.EticketService;
 import by.iba.railway.eticket.xml.services.ExpressService;
+import com.rw.numbered.orders.dto.trip.OrderingInformation;
 import com.rw.numbered.orders.dto.trip.TripInformation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,7 @@ public class XMLGateService {
         }
     }
 
-    public BuyTicketResponse buyTicket(TripInformation tripInformation) {
+    public BuyTicketResponse buyTicket(OrderingInformation orderingInformation) {
         BuyTicketResponse etInfo = new BuyTicketResponse();
         /*BuyTicketResponse etInfo = wsP.getBuyTicketInfo(stationFrom,
                 stationTo, depDate, depTime, train, car, requirements, "",

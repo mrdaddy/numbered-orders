@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(description = "Дополнительная информация о тарифе, заполняется только в случае, если есть фильтр TariffDetail")
+@ApiModel(description = "Дополнительная информация о тарифе, заполняется только в случае, если указан параметр isFullData = true")
 public class TariffDetail {
 
     @ApiModelProperty(required = false, example = "23.45", value = "Тариф (билет, плацкарта) по проездному документу", dataType = "double")

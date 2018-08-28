@@ -1,9 +1,11 @@
 package com.rw.numbered.orders.dto.ticket;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
+@ApiModel(description = "Информация о местах в билете")
 public class TicketSeatDetail {
     public enum SEAT_DESC {TOP, DOWN, MIDDLE}
 

@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@ApiModel(description = "Информация о билете")
+@ApiModel(description = "Информация о ЭПД")
 public class Ticket {
     public enum TICKET_STATUS {B, I, P, R}
 

@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@ApiModel(description = "Дополнительная информация о возврате, заполняется только в случае, если есть фильтр TicketReturnDetail")
+@ApiModel(description = "Дополнительная информация о возврате, заполняется только в случае, если указан параметр isFullData = true")
 public class TicketReturnDetail {
     @ApiModelProperty(required = false, example = "05:21", value = "Время до отправления поезда в момент возврата заказа", dataType = "String")
     private String timeBeforeDeparture;

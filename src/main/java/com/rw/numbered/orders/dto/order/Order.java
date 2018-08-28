@@ -1,6 +1,7 @@
 package com.rw.numbered.orders.dto.order;
 
 import com.rw.numbered.orders.dto.ticket.Ticket;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -11,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
+@ApiModel(description = "Информация о заказе пользователя")
 public class Order {
     public enum ORDER_STATUS {B, I, P, Y, R}
 
