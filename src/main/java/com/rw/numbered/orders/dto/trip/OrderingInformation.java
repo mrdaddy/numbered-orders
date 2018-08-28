@@ -13,16 +13,7 @@ public class OrderingInformation extends TripInformation {
     @ApiModelProperty(example = "74835926988082", required = false, value = "Идентификатор корзины, куда добавить заказ (если первый заказ заполнять не нужно)", dataType = "String")
     private String basket;
 
-    @ApiModelProperty(example = "ВИТЕБСК-ПАССАЖИРСКИЙ", required = true, value = "Наименование станция отправления на выбранном языке пользователя", dataType = "String")
-    @NotNull
-    @Size(min=2,max=64)
-    private String depStationName;
-
-    @ApiModelProperty(example = "ВИТЕБСК-ПАССАЖИРСКИЙ", required = true, value = "Наименование станция назначения на языке пользователя", dataType = "String")
-    @NotNull @Size(min=2,max=64)
-    private String arrStationName;
-
-    @ApiModelProperty(example = "скорый фирменный", required = true, value = "Характеристики поезда (через пробел) на языке пользователя", dataType = "String")
+    @ApiModelProperty(example = "СК СКР ФИРМ", required = true, value = "Характеристики поезда из АСУ Экспресс", dataType = "String")
     @NotNull @Size(max=64)
     private String trainType;
 

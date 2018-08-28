@@ -63,7 +63,7 @@ public class Order {
     @ApiModelProperty(required = false, example = "Время отправления местное", value = "Описатель времени на языке пользователя в момент создания заказа", dataType = "String")
     private String timeDesc;
 
-    @ApiModelProperty(required = false, example = "скорый, скоростной, фирменный", value = "Тип поезда (скорый, скоростной, фирменный) через пробел на языке пользователя в момент создания заказа", dataType = "String")
+    @ApiModelProperty(required = false, example = "СК СКР ФИРМ", value = "Тип поезда (скорый, скоростной, фирменный) через пробел на языке пользователя в момент создания заказа", dataType = "String")
     private String trainType;
 
 
