@@ -1,6 +1,5 @@
 package com.rw.numbered.orders.controllers;
 
-import com.rw.numbered.orders.dto.ErrorMessage;
 import com.rw.numbered.orders.service.ImageService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;

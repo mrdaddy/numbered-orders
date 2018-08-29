@@ -10,17 +10,15 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
 @Api(value="orders", description="Сервис базовых операций с заказами пользователя", tags = "Основные операции с заказами пользователя", basePath="/orders")
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/${service.version}/numbered/orders")
-
 public class OrderController extends BaseController{
 
     @Autowired
@@ -35,28 +33,28 @@ public class OrderController extends BaseController{
     @ApiOperation(value = "Получение бизнес-правил, необходимых для выполнения при оформлении и оплате заказа")
     @ResponseBody
     @ResponseStatus( HttpStatus.OK )
-    public PreOrder preOffer(@Valid @ApiParam TripInformation tripInformation) {
+    public PreOrder preOffer(@ApiParam TripInformation tripInformation) {
         return orderService.getPreOrderInfo(tripInformation);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "Создание нового заказа")
     @ResponseStatus( HttpStatus.CREATED )
-    public Order createOrder(@Valid @RequestBody @ApiParam OrderingInformation orderingInformation) {
+    public Order createOrder(@RequestBody @ApiParam OrderingInformation orderingInformation) {
         return orderService.createOrder(orderingInformation);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/{orderId}")
     @ApiOperation(value = "Удаление неоплаченного заказа из корзины с аннулированием в АСУ Экспресс")
     @ResponseStatus( HttpStatus.ACCEPTED)
-    public void deleteOrder(@Valid @PathVariable("orderId") @NotNull @ApiParam(value="Уникальный идентификатор записи заказа", example = "1") long orderId) {
+    public void deleteOrder(@PathVariable("orderId") @ApiParam(value="Уникальный идентификатор записи заказа", example = "1") long orderId) {
         orderService.deleteOrder(orderId);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{orderId}")
     @ApiOperation(value = "Получение информации о заказе пользователя")
     @ResponseStatus( HttpStatus.OK)
-    public Order getOrder(@Valid @PathVariable("orderId") @NotNull @ApiParam(value="Уникальный идентификатор записи заказа", example = "1") long orderId, @RequestParam @ApiParam(value="Признак, указывающий, заполнять ли блоки TariffDetail и TicketReturnDetail", example = "true") boolean isFullData) {
+    public Order getOrder(@PathVariable("orderId") @ApiParam(value="Уникальный идентификатор записи заказа", example = "1") long orderId, @RequestParam @ApiParam(value="Признак, указывающий, заполнять ли блоки TariffDetail и TicketReturnDetail", example = "true") boolean isFullData) {
         return orderService.getOrder(orderId);
     }
 

@@ -1,10 +1,8 @@
 package com.rw.numbered.orders.controllers;
 
-import com.rw.numbered.orders.dto.ErrorMessage;
 import com.rw.numbered.orders.service.PDFService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
