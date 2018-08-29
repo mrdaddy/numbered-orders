@@ -20,10 +20,10 @@ public class Ticket {
     private long orderId;
 
     @ApiModelProperty(example = "74835926988083", required = true, value = "Номер билета в системе Экспресс", dataType = "String")
-    private String expressNo;
+    private String expressNum;
 
     @ApiModelProperty(example = "1", required = true, value = "Номер билета в рамках заказа", dataType = "int")
-    private int ticketNo;
+    private int ticketNum;
 
     @ApiModelProperty(example = "B", required = true, value = "Статус билета. Значения: B - куплен в АСУ Экспресс, I - в оплате, P - оплачен, R - возвращён", dataType = "String")
     private TICKET_STATUS status;

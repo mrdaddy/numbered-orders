@@ -17,7 +17,7 @@ public class OrderPaymentDetail {
     private String paymentSystem;
 
     @ApiModelProperty(required = false, example = "23456", value = "Номер платежа в платежной системе (используется в ERIP)", dataType = "String")
-    private String paymentNo;
+    private String paymentNum;
 
     @ApiModelProperty(required = false, value = "Дата и время начала оплаты", dataType = "Datetime")
     private Date paymentStartTime;

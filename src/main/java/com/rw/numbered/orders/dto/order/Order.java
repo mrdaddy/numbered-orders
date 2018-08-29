@@ -20,10 +20,10 @@ public class Order {
     private long id;
 
     @ApiModelProperty(example = "74835926988082", required = true, value = "Номер корзины, куда добавлен заказ, при создании нового заказа необходимо передать в функцию формирования заказа", dataType = "String")
-    private String basket;
+    private String basketId;
 
     @ApiModelProperty(example = "74835926988083", required = true, value = "Номер заказа в системе Экспресс", dataType = "String")
-    private String expressNo;
+    private String expressNum;
 
     @ApiModelProperty(example = "B", required = true, value = "Статус заказа. Значения: B - куплен в АСУ Экспресс, I - в оплате, P - оплачен, R - возвращён, Y - частично возвращён", dataType = "String")
     private ORDER_STATUS status;

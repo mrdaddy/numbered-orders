@@ -8,7 +8,7 @@ import lombok.Data;
 @ApiModel(description = "Информация о вагоне из заказа")
 public class OrderCarriage {
     @ApiModelProperty(example = "1", required = true, value = "Номер вагона", dataType = "int")
-    private int no;
+    private int num;
 
     @ApiModelProperty(example = "К", required = true, value = "Тип вагона - код на языке пользователя в момент создания заказа", dataType = "String")
     private String typeCode;

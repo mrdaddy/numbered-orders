@@ -13,7 +13,7 @@ public class TicketReturnDetail {
     private String timeBeforeDeparture;
 
     @ApiModelProperty(required = false, example = "42835701336594", value = "Номер электронной квитанции разных сборов", dataType = "String")
-    private String expressNo;
+    private String expressNum;
 
     @ApiModelProperty(required = false, example = "10.23", value = "Возвращенная сумма по проездному документу", dataType = "double")
     private double amount;
