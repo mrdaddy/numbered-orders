@@ -1,27 +1,20 @@
 package com.rw.numbered.orders.controllers;
 
-import com.rw.numbered.orders.dto.ErrorMessage;
 import com.rw.numbered.orders.dto.order.Order;
-import com.rw.numbered.orders.dto.trip.OrderingInformation;
-import com.rw.numbered.orders.dto.trip.PreOrder;
-import com.rw.numbered.orders.dto.trip.TripInformation;
+import com.rw.numbered.orders.dto.request.OrderingInformation;
+import com.rw.numbered.orders.dto.order.PreOrder;
+import com.rw.numbered.orders.dto.request.TripInformation;
 import com.rw.numbered.orders.service.OrderService;
 import com.rw.numbered.orders.validators.TripInformationValidator;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.websocket.server.PathParam;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

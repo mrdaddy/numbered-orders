@@ -1,7 +1,6 @@
 package com.rw.numbered.orders.validators;
 
-import com.rw.numbered.orders.dto.trip.OrderingInformation;
-import com.rw.numbered.orders.dto.trip.TripInformation;
+import com.rw.numbered.orders.dto.request.OrderingInformation;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 

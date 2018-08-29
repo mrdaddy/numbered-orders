@@ -1,4 +1,4 @@
-package com.rw.numbered.orders.dto.trip;
+package com.rw.numbered.orders.dto.order;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

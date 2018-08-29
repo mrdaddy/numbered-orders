@@ -1,11 +1,10 @@
-package com.rw.numbered.orders.dto.trip;
+package com.rw.numbered.orders.dto.request;
 
 import com.rw.numbered.orders.dto.passenger.Passenger;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
 @Data

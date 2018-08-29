@@ -1,16 +1,12 @@
 package com.rw.numbered.orders.controllers;
 
-import com.rw.numbered.orders.dto.ErrorMessage;
 import com.rw.numbered.orders.dto.order.Order;
-import com.rw.numbered.orders.dto.trip.OrderingInformation;
 import com.rw.numbered.orders.service.RegistrationService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @Api(value="orders/reg", description="Сервис операций, связанных с электронной регистрацией с заказами пользователя", tags = "Операции с заказами и ЭПД, связанные с электронной регистрацией", basePath="/orders/reg")

@@ -4,8 +4,7 @@ import by.iba.railway.eticket.xml.RailWayServiceFactory;
 import by.iba.railway.eticket.xml.objs.response.eticket.BuyTicketResponse;
 import by.iba.railway.eticket.xml.services.EticketService;
 import by.iba.railway.eticket.xml.services.ExpressService;
-import com.rw.numbered.orders.dto.trip.OrderingInformation;
-import com.rw.numbered.orders.dto.trip.TripInformation;
+import com.rw.numbered.orders.dto.request.OrderingInformation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

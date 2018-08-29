@@ -1,6 +1,5 @@
-package com.rw.numbered.orders.dto.trip;
+package com.rw.numbered.orders.dto.request;
 
-import com.rw.numbered.orders.dto.passenger.Passenger;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,7 +7,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @ApiModel(description = "Данные о поездке")
