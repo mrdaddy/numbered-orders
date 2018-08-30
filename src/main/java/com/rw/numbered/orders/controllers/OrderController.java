@@ -54,14 +54,26 @@ public class OrderController extends BaseController{
     @RequestMapping(method = RequestMethod.GET, path = "/{orderId}")
     @ApiOperation(value = "Получение информации о заказе пользователя")
     @ResponseStatus( HttpStatus.OK)
-    public Order getOrder(@PathVariable("orderId") @ApiParam(value="Уникальный идентификатор записи заказа", example = "1") long orderId, @RequestParam @ApiParam(value="Признак, указывающий, заполнять ли блоки TariffDetail и TicketReturnDetail", example = "true") boolean isFullData) {
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK",
+                    responseHeaders = {
+                            @ResponseHeader(name = "ETag", response = String.class, description = "Хеш для кэширования")}),
+            @ApiResponse(code = 304, message = "Not Modified")
+    })
+    public Order getOrder(@PathVariable("orderId") @ApiParam(value="Уникальный идентификатор записи заказа", example = "1") long orderId, @RequestParam @ApiParam(value="Признак, указывающий, заполнять ли блоки TariffDetail и TicketReturnDetail", example = "true") boolean isFullData, @RequestHeader(name="IF-NONE-MATCH", required = false) @ApiParam(name="IF-NONE-MATCH", value = "ETag из предыдущего закэшированного запроса") String inm) {
         return orderService.getOrder(orderId);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     @ApiOperation(value = "Получение информации о заказах пользователя")
     @ResponseStatus( HttpStatus.OK)
-    public List<Order> getOrders(@RequestParam @ApiParam(value="Фильтр для получения списка заказов пользователя. Значение: пусто - все заказы, upcoming - заказы с предстоящими поездками, past - заказы с прошедшими поездками, returned - возвращённые и частично возвращённые заказы", example = "past", defaultValue = "upcoming", allowableValues = "upcoming, past, returned") String filter) {
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK",
+                    responseHeaders = {
+                            @ResponseHeader(name = "ETag", response = String.class, description = "Хеш для кэширования")}),
+            @ApiResponse(code = 304, message = "Not Modified")
+    })
+    public List<Order> getOrders(@RequestParam @ApiParam(value="Фильтр для получения списка заказов пользователя. Значение: пусто - все заказы, upcoming - заказы с предстоящими поездками, past - заказы с прошедшими поездками, returned - возвращённые и частично возвращённые заказы", example = "past", defaultValue = "upcoming", allowableValues = "upcoming, past, returned") String filter, @RequestHeader(name="IF-NONE-MATCH", required = false) @ApiParam(name="IF-NONE-MATCH", value = "ETag из предыдущего закэшированного запроса") String inm) {
         return orderService.getOrders(filter);
     }
 
