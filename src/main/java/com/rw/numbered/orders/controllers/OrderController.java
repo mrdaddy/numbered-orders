@@ -5,19 +5,18 @@ import com.rw.numbered.orders.dto.request.OrderingInformation;
 import com.rw.numbered.orders.dto.order.PreOrder;
 import com.rw.numbered.orders.dto.request.TripInformation;
 import com.rw.numbered.orders.service.OrderService;
-import com.rw.numbered.orders.validators.TripInformationValidator;
+import com.rw.numbered.orders.validator.OrderingInformationValidator;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@Api(value="orders", description="Сервис базовых операций с заказами пользователя", tags = "Основные операции с заказами пользователя", basePath="/orders")
+@Api(value="orders", description="Сервис базовых операций с нумерованными заказами пользователя", tags = "Основные операции с заказами пользователя", basePath="/orders")
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/${service.version}/numbered/orders")
 public class OrderController extends BaseController{
 
@@ -26,7 +25,7 @@ public class OrderController extends BaseController{
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
-        binder.addValidators(new TripInformationValidator());
+        binder.addValidators(new OrderingInformationValidator());
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/preorder")
