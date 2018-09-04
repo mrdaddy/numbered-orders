@@ -11,6 +11,7 @@ import java.util.Date;
 @Data
 @ApiModel(description = "Данные о поездке")
 public class TripInformation {
+    public enum DIRECTION {THERE, BACK}
     @ApiModelProperty(example = "001А", required = true, value = "Номер поезда", dataType = "String")
     @NotNull @Size(min=4,max=5)
     private String train;
@@ -35,4 +36,12 @@ public class TripInformation {
 
     @NotNull @ApiModelProperty(example = "true", required = true, value = "Флаг, указывающий, разрешена ли для данного вагона и поезда электронная регистрация", dataType = "boolean")
     private boolean isRegistrationAllowed;
+
+    @ApiModelProperty(example = "THERE", required = false, value = "Направление (необходимо при оформлении туда-обратно). Значения: THERE - туда, BACK - обратно", dataType = "String")
+    private DIRECTION directionType;
+
+    @ApiModelProperty(example = "74835926988082", required = false, value = "Идентификатор заказа \"туда\" в системе Экспресс, необходим для оформления билетов туда-обратно", dataType = "String")
+    @Size(max=14)
+    private String thereExpressNum;
+
 }

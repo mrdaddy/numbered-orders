@@ -10,7 +10,7 @@ import javax.validation.constraints.Min;
 @Service
 @Validated
 public class PDFService {
-    public byte[] getOrderPDF(long orderId) {
+    public byte[] getOrderPDF(@Valid @Min(1) long orderId) {
         return new byte[200];
     }
 
