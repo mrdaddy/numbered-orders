@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -64,7 +65,7 @@ public class OrderController extends BaseController{
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    @ApiOperation(value = "Получение информации о заказах пользователя")
+    @ApiOperation(value = "Получение информации о заказах пользователя", authorizations = @Authorization("jwt-auth"))
     @ResponseStatus( HttpStatus.OK)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK",
@@ -72,8 +73,14 @@ public class OrderController extends BaseController{
                             @ResponseHeader(name = "ETag", response = String.class, description = "Хеш для кэширования")}),
             @ApiResponse(code = 304, message = "Not Modified")
     })
-    public List<Order> getOrders(@RequestParam @ApiParam(value="Фильтр для получения списка заказов пользователя. Значение: пусто - все заказы, upcoming - заказы с предстоящими поездками, past - заказы с прошедшими поездками, returned - возвращённые и частично возвращённые заказы", example = "past", defaultValue = "upcoming", allowableValues = "upcoming, past, returned") String filter, @RequestHeader(name="IF-NONE-MATCH", required = false) @ApiParam(name="IF-NONE-MATCH", value = "ETag из предыдущего закэшированного запроса") String inm) {
-        return orderService.getOrders(filter);
+    public List<Order> getOrders(@RequestParam @ApiParam(value="Фильтр для получения списка заказов пользователя по типу заказа. Значение: пусто - все заказы, upcoming - заказы с предстоящими поездками, past - заказы с прошедшими поездками, returned - возвращённые и частично возвращённые заказы", example = "past", defaultValue = "upcoming", allowableValues = "upcoming, past, returned") String orderType,
+                                 @RequestParam(required = false) @ApiParam(value="Фильтр для получения списка заказов с датой отправления больше либо равно указанной", example = "2018-11-12") Date departureDateMin,
+                                 @RequestParam(required = false) @ApiParam(value="Фильтр для получения списка заказов с датой отправления меньше либо равно указанной", example = "2018-11-22") Date departureDateMax,
+                                 @RequestParam(required = false) @ApiParam(value="Фильтр для получения списка заказов с указанным поездом", example = "2018-11-22") String train,
+                                 @RequestParam(required = false) @ApiParam(value="Фильтр для получения списка заказов с указанной станцией отправления", example = "2100276") String departureStationCode,
+                                 @RequestParam(required = false) @ApiParam(value="Фильтр для получения списка заказов с указанной станцией прибытия", example = "2100276") String arrivalStationCode,
+                                 @RequestHeader(name="IF-NONE-MATCH", required = false) @ApiParam(name="IF-NONE-MATCH", value = "ETag из предыдущего закэшированного запроса") String inm) {
+        return orderService.getOrders(orderType ,departureDateMin, departureDateMax, train, departureStationCode, arrivalStationCode);
     }
 
 }
