@@ -17,14 +17,14 @@ public class RegistrationController extends BaseController {
     RegistrationService registrationService;
 
     @RequestMapping(method = RequestMethod.PUT, path = "/{orderId}")
-    @ApiOperation(value = "Изменение статуса электронной регистрации заказа")
+    @ApiOperation(value = "Изменение статуса электронной регистрации заказа", authorizations = @Authorization("jwt-auth"))
     @ResponseStatus( HttpStatus.ACCEPTED )
     public Order changeOrderRegStatus(@PathVariable(value = "orderId") @ApiParam(example = "1", value = "Уникальный идентификатор записи заказа", required = true) long orderId, @RequestParam @ApiParam(example = "true") boolean isRegistered) {
         return registrationService.changeTicketRegisterStatus(orderId, isRegistered);
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/{orderId}/tickets/{ticketId}")
-    @ApiOperation(value = "Изменение статуса электронной регистрации ЭПД")
+    @ApiOperation(value = "Изменение статуса электронной регистрации ЭПД", authorizations = @Authorization("jwt-auth"))
     @ResponseStatus( HttpStatus.ACCEPTED )
     public Order changeTicketRegStatus(@PathVariable(value = "orderId") @ApiParam(example = "1", value = "Уникальный идентификатор записи заказа", required = true) long orderId, @PathVariable(value = "ticketId", required = false) @ApiParam(example = "1", value = "Уникальный идентификатор записи ЭПД", required = true) long ticketId, @RequestParam @ApiParam(example = "true") boolean isRegistered) {
         return registrationService.changeOrderRegisterStatus(orderId, ticketId, isRegistered);

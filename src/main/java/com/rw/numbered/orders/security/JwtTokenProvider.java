@@ -1,38 +1,26 @@
 package com.rw.numbered.orders.security;
 
 import java.security.PublicKey;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 
 import java.io.IOException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
@@ -48,26 +36,42 @@ public class JwtTokenProvider {
     private String realmPublicKey;
     private PublicKey publicKey;
 
-    @Autowired
-    private MyUserDetails myUserDetails;
-
     @PostConstruct
     protected void init() {
         try {
             publicKey = decodePublicKey(pemToDer(realmPublicKey));
         } catch (Exception e) {
-            throw new CustomException("Invalid public key", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new RuntimeException("Invalid public key");
         }
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = myUserDetails.loadUserByUsername(getUsername(token));
-        //UserDetails userDetails = myUserDetails.loadUserByUsername(getUsername(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        String login = Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody().getSubject();
+        ArrayList<Map<String,String>> list = Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody().get("auth",ArrayList.class);
+        String[] ids = list.stream()
+                .map(am -> am.get("authority"))
+                .toArray(String[]::new);
+        Collection<? extends GrantedAuthority> authorities =
+                Arrays.stream(ids)
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+        org.springframework.security.core.userdetails.User principal = new org.springframework.security.core.userdetails.User(login, "",
+                authorities);
+        return new UsernamePasswordAuthenticationToken(principal, "test", authorities);
     }
 
-    public String getUsername(String token) {
-        return Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody().getSubject();
+    public User getUser(String token) {
+        User user = new User();
+        Map map = Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody().get("user", java.util.LinkedHashMap.class);
+        user.setId(Long.parseLong(map.get("id").toString()));
+        user.setEmail(map.get("email") != null ? map.get("email").toString() : null);
+        user.setLogin(Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody().getSubject());
+        if(map.get("language")!=null) {
+            user.setLanguage(map.get("language").toString());
+        } else {
+            user.setLanguage("ru");
+        }
+        return user;
     }
 
     public String resolveToken(HttpServletRequest req) {
@@ -83,7 +87,7 @@ public class JwtTokenProvider {
             Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
-            throw new CustomException("Expired or invalid JWT token", HttpStatus.INTERNAL_SERVER_ERROR);
+            return false;
         }
     }
 
@@ -95,17 +99,7 @@ public class JwtTokenProvider {
      * @throws java.io.IOException
      */
     public static byte[] pemToDer(String pem) throws IOException {
-        return Base64.getDecoder().decode(stripBeginEnd(pem));
-    }
-
-    public static String stripBeginEnd(String pem) {
-
-        String stripped = pem.replaceAll("-----BEGIN (.*)-----", "");
-        stripped = stripped.replaceAll("-----END (.*)----", "");
-        stripped = stripped.replaceAll("\r\n", "");
-        stripped = stripped.replaceAll("\n", "");
-
-        return stripped.trim();
+        return Base64.getDecoder().decode(pem);
     }
 
 

@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
 @EnableWebSecurity
 @Configuration
@@ -28,14 +30,15 @@ public class CustomWebSecurityConfiguration
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // Entry points
-        http.authorizeRequests()//
-                .anyRequest().authenticated();
-
-        // Apply JWT
-        http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
+     //   http.authorizeRequests()//
+      //          .anyRequest().authenticated();
+        // add filters
+        http.addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         // Optional, if you want to test the API from a browser
         // http.httpBasic();
+
+       // http.headers().cacheControl().disable();
     }
 
     @Override

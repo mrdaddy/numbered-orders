@@ -26,7 +26,7 @@ public class ReturnController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/check/{orderId}/tickets/{ticketId}")
-    @ApiOperation(value = "Проверка возможности и получение суммы возврата ЭПД")
+    @ApiOperation(value = "Проверка возможности и получение суммы возврата ЭПД", authorizations = @Authorization("jwt-auth"))
     @ResponseBody
     @ResponseStatus( HttpStatus.OK )
     public ReturnInfo checkReturnOrder(@PathVariable(value = "orderId") @ApiParam(example = "1", value = "Уникальный идентификатор записи заказа", required = true) long orderId, @PathVariable(value = "ticketId") @ApiParam(example = "1", value = "Уникальный идентификатор записи билета", required = true) long ticketId) {
@@ -34,7 +34,7 @@ public class ReturnController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/{orderId}")
-    @ApiOperation(value = "Возврат заказа")
+    @ApiOperation(value = "Возврат заказа", authorizations = @Authorization("jwt-auth"))
     @ResponseStatus( HttpStatus.ACCEPTED )
     public Order returnOrder(@PathVariable(value = "orderId") @ApiParam(example = "1", value = "Уникальный идентификатор записи заказа", required = true) long orderId) {
         return returnService.returnOrder(orderId);
