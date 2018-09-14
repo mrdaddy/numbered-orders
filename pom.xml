@@ -204,7 +204,7 @@
                 <version>1.0.1</version>
                 <configuration>
                     <swaggerInput>${swagger.directory}/api.json</swaggerInput>
-                    <outputFile>${asciidoctor.directory}/ApiDocumentation</outputFile>
+                    <outputFile>${asciidoctor.directory}/numbered-orders</outputFile>
                     <config>
                         <swagger2markup.markupLanguage>ASCIIDOC</swagger2markup.markupLanguage>
                         <swagger2markup.outputLanguage>RU</swagger2markup.outputLanguage>
