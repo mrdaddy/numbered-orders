@@ -32,7 +32,7 @@ public class OrderController extends BaseController{
         binder.addValidators(new OrderingInformationValidator());
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, path = "/auth")
     @ApiOperation(value = "Создание нового заказа авторизованным пользователем", authorizations = @Authorization("jwt-auth"))
     @ResponseStatus( HttpStatus.CREATED )
     @PreAuthorize("hasRole('U')")
@@ -40,7 +40,7 @@ public class OrderController extends BaseController{
         return orderService.createOrderAuth(orderingInformation);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, path = "/notauth")
     @ApiOperation(value = "Создание нового заказа неавторизованным пользователем")
     @ResponseStatus( HttpStatus.CREATED)
     public Order createOrderNotAuth(@RequestBody @ApiParam(required = true) OrderingInformation orderingInformation, @RequestParam @ApiParam(required = true, example = "test@test.com", value = "Email пользователя") String email, @RequestParam @ApiParam(example = "+375295544333", value = "Телефон пользователя") String phone) {

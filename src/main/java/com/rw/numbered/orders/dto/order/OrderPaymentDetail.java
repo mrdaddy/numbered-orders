@@ -2,12 +2,16 @@ package com.rw.numbered.orders.dto.order;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
 @ApiModel(description = "Информация об оплате заказа")
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderPaymentDetail {
     @ApiModelProperty(required = false, example = "ERIP", value = "Платежная система, через которую был оплачен или оплачивается заказ. " +
             "Значения: " +

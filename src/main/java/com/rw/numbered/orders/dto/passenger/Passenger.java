@@ -2,8 +2,10 @@ package com.rw.numbered.orders.dto.passenger;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
@@ -13,6 +15,8 @@ import java.util.Date;
 
 @Data
 @ApiModel(description = "Данные о пассажире")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Passenger {
     public enum SEX_TYPE {M,F}
     @ApiModelProperty(example = "1", required = false, value = "Уникальный идентификатор пассажира из СППД. Если пассажир вводится первый раз - заполнять не нужно", dataType = "long")

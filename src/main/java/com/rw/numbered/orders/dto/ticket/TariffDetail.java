@@ -2,10 +2,14 @@ package com.rw.numbered.orders.dto.ticket;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @ApiModel(description = "Дополнительная информация о тарифе, заполняется только в случае, если указан параметр isFullData = true")
+@NoArgsConstructor
+@AllArgsConstructor
 public class TariffDetail {
 
     @ApiModelProperty(required = false, example = "23.45", value = "Тариф (билет, плацкарта) по проездному документу", dataType = "double")

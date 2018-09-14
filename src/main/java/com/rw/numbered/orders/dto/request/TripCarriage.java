@@ -2,7 +2,9 @@ package com.rw.numbered.orders.dto.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
@@ -10,6 +12,8 @@ import javax.validation.constraints.Size;
 
 @Data
 @ApiModel(description = "Информация о выбранном вагоне")
+@NoArgsConstructor
+@AllArgsConstructor
 public class TripCarriage {
     @ApiModelProperty(example = "1", required = true, value = "Номер выбранного вагона", dataType = "int")
     @NotNull @Max(10000)

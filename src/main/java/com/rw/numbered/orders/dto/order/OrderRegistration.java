@@ -2,12 +2,16 @@ package com.rw.numbered.orders.dto.order;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
 @ApiModel(description = "Информация об электронной регистрации из заказа")
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderRegistration {
     @ApiModelProperty(required = true, example = "true", value = "Признак, указывающий, разрешена ли электронная регистрация на поезд", dataType = "boolean")
     private boolean isAllowed;

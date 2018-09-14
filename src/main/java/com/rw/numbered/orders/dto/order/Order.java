@@ -4,7 +4,9 @@ import com.rw.numbered.orders.dto.request.TripInformation;
 import com.rw.numbered.orders.dto.ticket.Ticket;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Data
 @ApiModel(description = "Информация о заказе пользователя")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order {
     public enum ORDER_STATUS {B, I, P, Y, R}
     public enum DIRECTION {THERE, BACK}

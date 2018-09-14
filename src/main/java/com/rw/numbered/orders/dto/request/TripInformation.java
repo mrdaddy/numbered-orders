@@ -2,8 +2,10 @@ package com.rw.numbered.orders.dto.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
@@ -11,6 +13,8 @@ import java.util.Date;
 
 @Data
 @ApiModel(description = "Данные о поездке")
+@NoArgsConstructor
+@AllArgsConstructor
 public class TripInformation {
     public enum DIRECTION {THERE, BACK}
     @ApiModelProperty(example = "001А", required = true, value = "Номер поезда", dataType = "String")

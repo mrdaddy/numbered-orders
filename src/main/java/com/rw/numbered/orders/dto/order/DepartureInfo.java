@@ -2,13 +2,17 @@ package com.rw.numbered.orders.dto.order;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 @Data
 @ApiModel(description = "Информация об отправлении пассажира")
+@NoArgsConstructor
+@AllArgsConstructor
 public class DepartureInfo {
     @ApiModelProperty(example = "201Б", required = true, value = "Номер поезда отправления", dataType = "String")
     private String train;

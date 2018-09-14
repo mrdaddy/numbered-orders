@@ -2,12 +2,16 @@ package com.rw.numbered.orders.dto.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Max;
 
 @Data
 @ApiModel(description = "Информация о выбранных местах")
+@NoArgsConstructor
+@AllArgsConstructor
 public class TripSeatDetail {
     public enum PART_TYPES {ONE_SECTION, ONE_COUPE}
     public enum SEX_TYPES {MALE, FEMALE, MIXED}

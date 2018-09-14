@@ -2,10 +2,14 @@ package com.rw.numbered.orders.dto.order;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @ApiModel(description = "Информация о вагоне из заказа")
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderCarriage {
     @ApiModelProperty(example = "1", required = true, value = "Номер вагона", dataType = "int")
     private int num;

@@ -2,10 +2,14 @@ package com.rw.numbered.orders.dto.order;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @ApiModel(description = "Информация о местах в заказе")
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderSeatDetail {
     public enum SEX_TYPES {MALE, FEMALE, MIXED}
 
