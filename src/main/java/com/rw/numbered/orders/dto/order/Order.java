@@ -1,5 +1,6 @@
 package com.rw.numbered.orders.dto.order;
 
+import com.rw.numbered.orders.dto.request.TripInformation;
 import com.rw.numbered.orders.dto.ticket.Ticket;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,6 +16,7 @@ import java.util.List;
 @ApiModel(description = "Информация о заказе пользователя")
 public class Order {
     public enum ORDER_STATUS {B, I, P, Y, R}
+    public enum DIRECTION {THERE, BACK}
 
     @ApiModelProperty(example = "1", required = true, value = "Уникальный идентификатор записи заказа", dataType = "long")
     private long id;
@@ -24,6 +26,12 @@ public class Order {
 
     @ApiModelProperty(example = "74835926988083", required = true, value = "Номер заказа в системе Экспресс", dataType = "String")
     private String expressNum;
+
+    @ApiModelProperty(example = "THERE", required = false, value = "Направление (необходимо при оформлении туда-обратно). Значения: THERE - `Туда`, BACK - `Туда`", dataType = "String")
+    private TripInformation.DIRECTION directionType;
+
+    @ApiModelProperty(example = "74835926988083", required = false, value = "Номер заказа в системе Экспресс, купленного как `Туда` при получении информации о заказе, купленном как `Обратно`", dataType = "String")
+    private String expressThereNum;
 
     @ApiModelProperty(example = "B", required = true, value = "Статус заказа. Значения: B - куплен в АСУ Экспресс, I - в оплате, P - оплачен, R - возвращён, Y - частично возвращён", dataType = "String")
     private ORDER_STATUS status;
@@ -87,4 +95,7 @@ public class Order {
     OrderPaymentDetail orderPaymentDetail;
 
     private List<Ticket> tickets;
+
+    @ApiModelProperty(required = false, value = "JWT токен для авторизации. Заполняется в случае вызова функции покупки билета без авторизации по email")
+    private String jwtToken;
 }

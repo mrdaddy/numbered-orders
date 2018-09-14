@@ -7,11 +7,13 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api(value="orders/return", description="Сервис операций, связанных с возвратом заказов и билетов", tags = "Операции с заказами и ЭПД, связанные с возвратом", basePath="/orders/return")
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/${service.version}/numbered/orders/return")
+@PreAuthorize("hasRole('U')")
 
 public class ReturnController extends BaseController {
     @Autowired

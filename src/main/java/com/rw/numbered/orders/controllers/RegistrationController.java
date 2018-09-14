@@ -6,11 +6,13 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api(value="orders/reg", description="Сервис операций, связанных с электронной регистрацией с заказами пользователя", tags = "Операции с заказами и ЭПД, связанные с электронной регистрацией", basePath="/orders/reg")
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/${service.version}/numbered/orders/reg")
+@PreAuthorize("hasRole('U')")
 
 public class RegistrationController extends BaseController {
     @Autowired

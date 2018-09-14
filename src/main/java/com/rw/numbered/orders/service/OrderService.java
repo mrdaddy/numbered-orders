@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,7 +28,12 @@ public class OrderService {
     @Autowired
     XMLGateService xmlGateService;
 
-    public Order createOrder(@Valid OrderingInformation orderingInformation) {
+    public Order createOrderAuth(@Valid OrderingInformation orderingInformation) {
+        BuyTicketResponse etInfo = xmlGateService.buyTicket(orderingInformation);
+        return new Order();
+    }
+
+    public Order createOrderNotAuth(@Valid OrderingInformation orderingInformation, @Valid @NotNull @Email @Size(max=64) String email, @Valid @Size(max=255) String phone) {
         BuyTicketResponse etInfo = xmlGateService.buyTicket(orderingInformation);
         return new Order();
     }

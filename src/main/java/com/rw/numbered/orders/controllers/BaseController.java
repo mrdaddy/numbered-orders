@@ -25,7 +25,6 @@ import java.util.List;
         @ApiResponse(code = 503, message = "Service Unavailable", response = ErrorMessage.class, responseContainer = "List"),
         @ApiResponse(code = 504, message = "Gateway Timeout")
 })
-@PreAuthorize("hasRole('U')")
 public class BaseController {
     public enum ERROR_PREFIX {validation, system, express}
     @ExceptionHandler(ConstraintViolationException.class)

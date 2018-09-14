@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api(value="orders/image", produces = MediaType.IMAGE_PNG_VALUE, description="Сервис получения штриховых кодов ЭПД (штриховой код проездного документа и 2D штриховой код документа)", tags = "Получение штриховых кодов ЭПД", basePath="/orders/image")
 @RequestMapping(path = "/${service.version}/numbered/orders")
+@PreAuthorize("hasRole('U')")
 
 public class ImageController extends BaseController {
     @Autowired

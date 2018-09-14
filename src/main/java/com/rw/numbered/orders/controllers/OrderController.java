@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,10 +33,18 @@ public class OrderController extends BaseController{
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    @ApiOperation(value = "Создание нового заказа", authorizations = @Authorization("jwt-auth"))
+    @ApiOperation(value = "Создание нового заказа авторизованным пользователем", authorizations = @Authorization("jwt-auth"))
     @ResponseStatus( HttpStatus.CREATED )
-    public Order createOrder(@RequestBody @ApiParam OrderingInformation orderingInformation) {
-        return orderService.createOrder(orderingInformation);
+    @PreAuthorize("hasRole('U')")
+    public Order createOrderAuth(@RequestBody @ApiParam OrderingInformation orderingInformation) {
+        return orderService.createOrderAuth(orderingInformation);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    @ApiOperation(value = "Создание нового заказа неавторизованным пользователем")
+    @ResponseStatus( HttpStatus.CREATED)
+    public Order createOrderNotAuth(@RequestBody @ApiParam(required = true) OrderingInformation orderingInformation, @RequestParam @ApiParam(required = true, example = "test@test.com", value = "Email пользователя") String email, @RequestParam @ApiParam(example = "+375295544333", value = "Телефон пользователя") String phone) {
+        return orderService.createOrderNotAuth(orderingInformation, email, phone);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/{orderId}")

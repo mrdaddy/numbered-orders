@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @Data
 @ApiModel(description = "Данные для создания заказа о поездке и пассажирах")
 public class OrderingInformation extends TripInformation {
-    @ApiModelProperty(example = "74835926988082", required = false, value = "Идентификатор корзины, куда добавить заказ (если первый заказ заполнять не нужно)", dataType = "String")
+    @ApiModelProperty(example = "74835926988082", required = false, value = "Идентификатор корзины, куда добавить заказ (необязательный, система сможет автоматически вычислить действующую активную корзину, если она есть)", dataType = "String")
     @Size(max=20)
     private String basketId;
 
