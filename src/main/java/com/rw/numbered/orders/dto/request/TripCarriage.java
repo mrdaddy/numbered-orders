@@ -33,10 +33,15 @@ public class TripCarriage {
     private String serviceClassIntCode;
 
     @ApiModelProperty(example = "false", required = false, value = "В данном вагоне места продаются только по 2", dataType = "boolean")
-    private boolean only2m;
+    private boolean saleOnTwo;
 
     @ApiModelProperty(example = "У0", required = false, value = "Дополнительные признаки вагона", dataType = "String")
     @NotNull
     @Size(max = 16)
     private String addSigns;
+
+    @ApiModelProperty(example = "Ц", required = true, value = "Дополнительная (если есть) буква поезда (нитки) для данного вагона. Берётся из 61/62 справки из тега TrainLetter", dataType = "String")
+    @Size(max = 1)
+    private String trainLetter;
+
 }

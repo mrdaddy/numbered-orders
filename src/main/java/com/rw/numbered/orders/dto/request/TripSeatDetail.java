@@ -26,16 +26,16 @@ public class TripSeatDetail {
 
     @ApiModelProperty(example = "1", required = false, value = "Предполагаемое количество нижних мест", dataType = "int")
     @Max(2)
-    private int downCount;
+    private int bottomCount;
 
     @ApiModelProperty(example = "1", required = false, value = "Предполагаемое количество верхних мест", dataType = "int")
     @Max(4)
-    private int upCount;
+    private int topCount;
 
     @ApiModelProperty(example = "MALE", required = false, value = "Тип купэ для М/Ж вагонов: MALE - мужское, FEMALE - женское, MIXED - смешанное", dataType = "String")
     private SEX_TYPES compartmentType;
 
-    @ApiModelProperty(example = "ONE_SECTION", required = false, value = "Признак объединения мест в одно купэ или отсек: ONE_SECTION - мужское, ONE_COUPE - женское, MIXED - смешанное", dataType = "String")
+    @ApiModelProperty(example = "ONE_SECTION", required = false, value = "Признак объединения мест в одно купэ или отсек: ONE_SECTION - мужское, ONE_COUPE - женское", dataType = "String")
     private PART_TYPES partType;
 
     @ApiModelProperty(example = "true", required = false, value = "Признак, включено ли в стоимость постельное бельё", dataType = "boolean")

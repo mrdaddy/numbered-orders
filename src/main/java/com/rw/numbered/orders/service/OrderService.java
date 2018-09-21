@@ -1,11 +1,11 @@
 package com.rw.numbered.orders.service;
 
 import by.iba.railway.eticket.xml.exception.BusinessSystemException;
+import by.iba.railway.eticket.xml.exception.XmlParserSystemException;
 import by.iba.railway.eticket.xml.objs.response.eticket.BuyTicketResponse;
 import com.rw.numbered.orders.dao.OrderDao;
 import com.rw.numbered.orders.dto.order.Order;
 import com.rw.numbered.orders.dto.request.OrderingInformation;
-import com.rw.numbered.orders.dto.request.TripInformation;
 import com.rw.numbered.orders.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,15 +26,19 @@ public class OrderService {
     OrderDao orderDao;
 
     @Autowired
-    XMLGateService xmlGateService;
+    UserService userService;
 
-    public Order createOrderAuth(@Valid OrderingInformation orderingInformation, @Valid User user) {
-        BuyTicketResponse etInfo = xmlGateService.buyTicket(orderingInformation);
+    @Autowired
+    AddOrderService addOrderService;
+
+    public Order createOrderAuth(@Valid OrderingInformation orderingInformation, @Valid User user) throws XmlParserSystemException, BusinessSystemException {
+        BuyTicketResponse etInfo = addOrderService.buyTicket(orderingInformation, user);
         return new Order();
     }
 
-    public Order createOrderNotAuth(@Valid OrderingInformation orderingInformation, @Valid @NotNull @Email @Size(max=64) String email, @Valid @Size(max=255) String phone) {
-        BuyTicketResponse etInfo = xmlGateService.buyTicket(orderingInformation);
+    public Order createOrderNotAuth(@Valid OrderingInformation orderingInformation, @Valid @NotNull @Email @Size(max=64) String email, @Valid @Size(max=255) String phone) throws XmlParserSystemException, BusinessSystemException {
+        User user = userService.createUser(email, phone);
+        BuyTicketResponse etInfo = addOrderService.buyTicket(orderingInformation, user);
         return new Order();
     }
 
