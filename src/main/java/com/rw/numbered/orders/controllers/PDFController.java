@@ -20,14 +20,14 @@ public class PDFController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/{orderId}.pdf")
     @ApiOperation(value = "Получение бланка заказа в формате PDF", authorizations = @Authorization("jwt-auth"))
-    public ResponseEntity<InputStreamResource> returnOrder(@PathVariable(value = "orderId") @ApiParam(example = "1", value = "Уникальный идентификатор записи заказа", required = true) long orderId) {
+    public ResponseEntity<byte[]> getOrderPDF(@PathVariable(value = "orderId") @ApiParam(example = "1", value = "Уникальный идентификатор записи заказа", required = true) long orderId) {
         return pdfService.getOrderPDF(orderId);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{orderId}/tickets/{ticketId}.pdf")
     @ApiOperation(value = "Получение бланка ЭПД в формате PDF", authorizations = @Authorization("jwt-auth"))
     public
-    ResponseEntity<InputStreamResource> returnTicket(@PathVariable(value = "orderId") @ApiParam(example = "1", value = "Уникальный идентификатор записи заказа", required = true) long orderId, @PathVariable(value = "ticketId", required = false) @ApiParam(example = "1", value = "Уникальный идентификатор записи ЭПД", required = true) long ticketId) {
+    ResponseEntity<byte[]> getTicketPDF(@PathVariable(value = "orderId") @ApiParam(example = "1", value = "Уникальный идентификатор записи заказа", required = true) long orderId, @PathVariable(value = "ticketId", required = false) @ApiParam(example = "1", value = "Уникальный идентификатор записи ЭПД", required = true) long ticketId) {
         return pdfService.getTicketPDF(orderId, ticketId);
     }
 }

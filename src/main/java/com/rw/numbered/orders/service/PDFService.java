@@ -20,26 +20,25 @@ import java.nio.file.Paths;
 @Service
 @Validated
 public class PDFService {
-    public ResponseEntity<InputStreamResource> getOrderPDF(@Valid @Min(1) long orderId) {
+    public ResponseEntity<byte[]> getOrderPDF(@Valid @Min(1) long orderId) {
         Path path = Paths.get("1.pdf");
         String filename = "order_"+orderId+".pdf";
         return getInputStreamEntity(path, filename);
     }
 
-    public ResponseEntity<InputStreamResource> getTicketPDF(@Valid @Min(1) long orderId, long ticketId) {
+    public ResponseEntity<byte[]> getTicketPDF(@Valid @Min(1) long orderId, long ticketId) {
         Path path = Paths.get("1.pdf");
         String filename = "ticket_"+ticketId+".pdf";
         return getInputStreamEntity(path, filename);
     }
 
-    private ResponseEntity<InputStreamResource> getInputStreamEntity(Path path, String filename) {
+    private ResponseEntity<byte[]> getInputStreamEntity(Path path, String filename) {
         try {
-            InputStream inputStream = Files.newInputStream(path);
             HttpHeaders responseHeaders = new HttpHeaders();
-            InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
             responseHeaders.setContentDispositionFormData("attachment", filename);
             responseHeaders.setContentType(MediaType.valueOf("application/pdf"));
-            return new ResponseEntity<>(inputStreamResource,
+            byte[] fileContent = Files.readAllBytes(path);
+            return new ResponseEntity<>(fileContent,
                     responseHeaders,
                     HttpStatus.OK);
         } catch (IOException e) {

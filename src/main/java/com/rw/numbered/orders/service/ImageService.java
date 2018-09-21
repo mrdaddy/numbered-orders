@@ -20,25 +20,24 @@ import java.nio.file.Paths;
 @Service
 @Validated
 public class ImageService {
-    public ResponseEntity<InputStreamResource> get1DCode(@Valid @Min(1) long orderId,@Valid  @Min(1) long ticketId, int dpi, int columns) {
+    public ResponseEntity<byte[]> get1DCode(@Valid @Min(1) long orderId,@Valid  @Min(1) long ticketId, int dpi, int columns) {
         Path path = Paths.get("1.png");
         String filename = "1d_"+ticketId+".png";
         return getInputStreamEntity(path, filename);
     }
 
-    public ResponseEntity<InputStreamResource> get2DCode(@Valid @Min(1) long orderId,@Valid @Min(1)  long ticketId, int dpi, int height) {
+    public ResponseEntity<byte[]> get2DCode(@Valid @Min(1) long orderId,@Valid @Min(1)  long ticketId, int dpi, int height) {
         Path path = Paths.get("1.png");
         String filename = "2d_"+ticketId+".png";
         return getInputStreamEntity(path, filename);
     }
 
-    private ResponseEntity<InputStreamResource> getInputStreamEntity(Path path, String filename) {
+    private ResponseEntity<byte[]> getInputStreamEntity(Path path, String filename) {
         try {
-            InputStream inputStream = Files.newInputStream(path);
             HttpHeaders responseHeaders = new HttpHeaders();
-            InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
             responseHeaders.setContentType(MediaType.IMAGE_PNG);
-            return new ResponseEntity<>(inputStreamResource,
+            byte[] fileContent = Files.readAllBytes(path);
+            return new ResponseEntity<>(fileContent,
                     responseHeaders,
                     HttpStatus.OK);
         } catch (IOException e) {
