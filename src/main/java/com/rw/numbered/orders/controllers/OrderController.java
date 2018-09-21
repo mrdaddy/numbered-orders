@@ -38,22 +38,27 @@ public class OrderController extends BaseController{
     @ApiOperation(value = "Создание нового заказа авторизованным пользователем", authorizations = @Authorization("jwt-auth"))
     @ResponseStatus( HttpStatus.CREATED )
     @PreAuthorize("hasRole('U')")
-    public Order createOrderAuth(@RequestBody @ApiParam OrderingInformation orderingInformation) {
-        return orderService.createOrderAuth(orderingInformation);
+    public Order createOrderAuth(@RequestBody @ApiParam OrderingInformation orderingInformation,
+                                 @RequestAttribute(value = "user", required = false) @ApiIgnore User user) {
+        return orderService.createOrderAuth(orderingInformation, user);
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/notauth")
     @ApiOperation(value = "Создание нового заказа неавторизованным пользователем")
     @ResponseStatus( HttpStatus.CREATED)
-    public Order createOrderNotAuth(@RequestBody @ApiParam(required = true) OrderingInformation orderingInformation, @RequestParam @ApiParam(required = true, example = "test@test.com", value = "Email пользователя") String email, @RequestParam @ApiParam(example = "+375295544333", value = "Телефон пользователя") String phone) {
+    public Order createOrderNotAuth(@RequestBody @ApiParam(required = true) OrderingInformation orderingInformation,
+                                    @RequestParam @ApiParam(required = true, example = "test@test.com", value = "Email пользователя") String email,
+                                    @RequestParam @ApiParam(example = "+375295544333", value = "Телефон пользователя") String phone) {
         return orderService.createOrderNotAuth(orderingInformation, email, phone);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/{orderId}")
     @ApiOperation(value = "Удаление неоплаченного заказа из корзины с аннулированием в АСУ Экспресс", authorizations = @Authorization("jwt-auth"))
     @ResponseStatus( HttpStatus.ACCEPTED)
-    public void deleteOrder(@PathVariable("orderId") @ApiParam(value="Уникальный идентификатор записи заказа", example = "1") long orderId) {
-        orderService.deleteOrder(orderId);
+    @PreAuthorize("hasRole('U')")
+    public void deleteOrder(@PathVariable("orderId") @ApiParam(value="Уникальный идентификатор записи заказа", example = "1") long orderId,
+                            @RequestAttribute(value = "user", required = false) @ApiIgnore User user) {
+        orderService.deleteOrder(orderId, user);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{orderId}")
@@ -65,8 +70,12 @@ public class OrderController extends BaseController{
                             @ResponseHeader(name = "ETag", response = String.class, description = "Хеш для кэширования")}),
             @ApiResponse(code = 304, message = "Not Modified")
     })
-    public Order getOrder(@PathVariable("orderId") @ApiParam(value="Уникальный идентификатор записи заказа", example = "1") long orderId, @RequestParam @ApiParam(value="Признак, указывающий, заполнять ли блоки TariffDetail и TicketReturnDetail", example = "true") boolean isFullData, @RequestHeader(name="IF-NONE-MATCH", required = false) @ApiParam(name="IF-NONE-MATCH", value = "ETag из предыдущего закэшированного запроса") String inm) {
-        return orderService.getOrder(orderId);
+    @PreAuthorize("hasRole('U')")
+    public Order getOrder(@PathVariable("orderId") @ApiParam(value="Уникальный идентификатор записи заказа", example = "1") long orderId,
+                          @RequestParam @ApiParam(value="Признак, указывающий, заполнять ли блоки TariffDetail и TicketReturnDetail", example = "true") boolean isFullData,
+                          @RequestHeader(name="IF-NONE-MATCH", required = false) @ApiParam(name="IF-NONE-MATCH", value = "ETag из предыдущего закэшированного запроса") String inm,
+                          @RequestAttribute(value = "user", required = false) @ApiIgnore User user) {
+        return orderService.getOrder(orderId, user);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -78,6 +87,7 @@ public class OrderController extends BaseController{
                             @ResponseHeader(name = "ETag", response = String.class, description = "Хеш для кэширования")}),
             @ApiResponse(code = 304, message = "Not Modified")
     })
+    @PreAuthorize("hasRole('U')")
     public List<Order> getOrders(@RequestParam @ApiParam(value="Фильтр для получения списка заказов пользователя по типу заказа. Значение: пусто - все заказы, upcoming - заказы с предстоящими поездками, past - заказы с прошедшими поездками, returned - возвращённые и частично возвращённые заказы", example = "past", defaultValue = "upcoming", allowableValues = "upcoming, past, returned") String orderType,
                                  @RequestParam(required = false) @ApiParam(value="Фильтр для получения списка заказов с датой отправления больше либо равно указанной", example = "2018-11-12") @DateTimeFormat(pattern="yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) Date departureDateMin,
                                  @RequestParam(required = false) @ApiParam(value="Фильтр для получения списка заказов с датой отправления меньше либо равно указанной", example = "2018-11-22") @DateTimeFormat(pattern="yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) Date departureDateMax,

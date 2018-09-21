@@ -28,7 +28,7 @@ public class OrderService {
     @Autowired
     XMLGateService xmlGateService;
 
-    public Order createOrderAuth(@Valid OrderingInformation orderingInformation) {
+    public Order createOrderAuth(@Valid OrderingInformation orderingInformation, @Valid User user) {
         BuyTicketResponse etInfo = xmlGateService.buyTicket(orderingInformation);
         return new Order();
     }
@@ -38,16 +38,21 @@ public class OrderService {
         return new Order();
     }
 
-    public void deleteOrder(@Valid @Min(1) long orderId) {
+    public void deleteOrder(@Valid @Min(1) long orderId, @Valid User user) {
 
     }
 
-    public Order getOrder(@Valid @Min(1) long orderId) {
+    public Order getOrder(@Valid @Min(1) long orderId, @Valid User user) {
         return new Order();
     }
 
-    public List<Order> getOrders(@Valid @Size(max = 30) String orderType , @Valid Date departureDateMin, @Valid Date departureDateMax, @Valid @Size( max=6) String train,
-                                 @Valid @Size(max=8) String departureStationCode, @Valid @Size(max=8) String  arrivalStationCode, @Valid @NotNull User user) throws BusinessSystemException {
+    public List<Order> getOrders(@Valid @Size(max = 30) String orderType,
+                                 @Valid Date departureDateMin,
+                                 @Valid Date departureDateMax,
+                                 @Valid @Size( max=6) String train,
+                                 @Valid @Size(max=8) String departureStationCode,
+                                 @Valid @Size(max=8) String  arrivalStationCode,
+                                 @Valid @NotNull User user) throws BusinessSystemException {
 
         return orderDao.getOrders(orderType ,departureDateMin, departureDateMax, train, departureStationCode, arrivalStationCode);
     }

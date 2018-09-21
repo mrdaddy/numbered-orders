@@ -41,8 +41,7 @@ public class ImageService {
                     responseHeaders,
                     HttpStatus.OK);
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 

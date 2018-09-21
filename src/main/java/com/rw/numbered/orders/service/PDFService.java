@@ -1,6 +1,7 @@
 package com.rw.numbered.orders.service;
 
 import com.rw.numbered.orders.dto.order.Order;
+import com.rw.numbered.orders.security.User;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,13 +21,13 @@ import java.nio.file.Paths;
 @Service
 @Validated
 public class PDFService {
-    public ResponseEntity<byte[]> getOrderPDF(@Valid @Min(1) long orderId) {
+    public ResponseEntity<byte[]> getOrderPDF(@Valid @Min(1) long orderId, @Valid User user) {
         Path path = Paths.get("1.pdf");
         String filename = "order_"+orderId+".pdf";
         return getInputStreamEntity(path, filename);
     }
 
-    public ResponseEntity<byte[]> getTicketPDF(@Valid @Min(1) long orderId, long ticketId) {
+    public ResponseEntity<byte[]> getTicketPDF(@Valid @Min(1) long orderId, long ticketId, @Valid User user) {
         Path path = Paths.get("1.pdf");
         String filename = "ticket_"+ticketId+".pdf";
         return getInputStreamEntity(path, filename);
@@ -42,8 +43,7 @@ public class PDFService {
                     responseHeaders,
                     HttpStatus.OK);
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 }
