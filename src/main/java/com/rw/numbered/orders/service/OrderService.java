@@ -31,14 +31,26 @@ public class OrderService {
     @Autowired
     AddOrderService addOrderService;
 
-    public Order createOrderAuth(@Valid OrderingInformation orderingInformation, @Valid User user) throws XmlParserSystemException, BusinessSystemException {
-        BuyTicketResponse etInfo = addOrderService.buyTicket(orderingInformation, user);
+    public Order createOrderAuth(@Valid OrderingInformation orderingInformation, @Valid User user) {
+        try {
+            BuyTicketResponse etInfo = addOrderService.buyTicket(orderingInformation, user);
+        } catch (XmlParserSystemException e) {
+            throw new RuntimeException(e);
+        } catch (BusinessSystemException e) {
+            throw new RuntimeException(e);
+        }
         return new Order();
     }
 
-    public Order createOrderNotAuth(@Valid OrderingInformation orderingInformation, @Valid @NotNull @Email @Size(max=64) String email, @Valid @Size(max=255) String phone) throws XmlParserSystemException, BusinessSystemException {
+    public Order createOrderNotAuth(@Valid OrderingInformation orderingInformation, @Valid @NotNull @Email @Size(max=64) String email, @Valid @Size(max=255) String phone) {
         User user = userService.createUser(email, phone);
-        BuyTicketResponse etInfo = addOrderService.buyTicket(orderingInformation, user);
+        try {
+            BuyTicketResponse etInfo = addOrderService.buyTicket(orderingInformation, user);
+        } catch (XmlParserSystemException e) {
+            throw new RuntimeException(e);
+        } catch (BusinessSystemException e) {
+            throw new RuntimeException(e);
+        }
         return new Order();
     }
 
