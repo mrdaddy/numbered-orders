@@ -15,7 +15,7 @@ import java.util.*;
 
 @Transactional
 @Repository
-public class OrderDao extends SQLQueries{
+public class OrderDao implements SQLQueries{
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 

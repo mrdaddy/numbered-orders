@@ -2,11 +2,13 @@ package com.rw.numbered.orders.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Repository
 public class ParameterDao {
     private static final String PARAM_INFO = "SELECT VALUE FROM ETICKET.PARAMETERS WHERE CODE=:CODE";
 

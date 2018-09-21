@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Order {
     public enum ORDER_STATUS {B, I, P, Y, R}
-    public enum DIRECTION {THERE, BACK}
+    public enum DIRECTION {TO, BACK}
 
     @ApiModelProperty(example = "1", required = true, value = "Уникальный идентификатор записи заказа", dataType = "long")
     private long id;
@@ -27,8 +27,8 @@ public class Order {
     @ApiModelProperty(example = "74835926988083", required = true, value = "Номер заказа в системе Экспресс", dataType = "String")
     private String expressNum;
 
-    @ApiModelProperty(example = "THERE", required = false, value = "Направление (необходимо при оформлении туда-обратно). Значения: THERE - `Туда`, BACK - `Туда`", dataType = "String")
-    private TripInformation.DIRECTION directionType;
+    @ApiModelProperty(example = "TO", required = false, value = "Направление (необходимо при оформлении туда-обратно). Значения: THERE - `Туда`, BACK - `Туда`", dataType = "String")
+    private DIRECTION directionType;
 
     @ApiModelProperty(example = "74835926988083", required = false, value = "Номер заказа в системе Экспресс, купленного как `Туда` при получении информации о заказе, купленном как `Обратно`", dataType = "String")
     private String expressThereNum;
