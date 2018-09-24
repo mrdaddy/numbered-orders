@@ -16,6 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Ticket {
     public enum TICKET_STATUS {B, I, P, R}
+    public enum REGISTRATION_TYPE {R, R0, R1, R2, R3, R4, R5}
+    public enum TARIFF_TYPE {FULL, CHILD, FREE};
 
     @ApiModelProperty(example = "1", required = true, value = "Уникальный идентификатор записи билета", dataType = "long")
     private long id;
@@ -23,7 +25,7 @@ public class Ticket {
     @ApiModelProperty(example = "1", required = true, value = "Уникальный идентификатор записи заказа", dataType = "long")
     private long orderId;
 
-    @ApiModelProperty(example = "74835926988083", required = true, value = "Номер билета в системе Экспресс", dataType = "String")
+    @ApiModelProperty(example = "74835926988083", required = false, value = "Номер билета в системе Экспресс. Появляется только после успешной оплаты заказа", dataType = "String")
     private String expressNum;
 
     @ApiModelProperty(example = "1", required = true, value = "Номер билета в рамках заказа", dataType = "int")
@@ -48,8 +50,7 @@ public class Ticket {
     @ApiModelProperty(required = true, example = "BYN", value = "Код валюты билета - всегда BYN", dataType = "String")
     private String currencyCode;
 
-    public enum TARIFF_TYPE {FULL, CHILD, FREE};
-    @ApiModelProperty(example = "FULL", required = false, value = "Тип тарифа. Значения : FULL - полный, CHILD - детский, FREE - безденежный", dataType = "String")
+    @ApiModelProperty(example = "FULL", required = true, value = "Тип тарифа. Значения : FULL - полный, CHILD - детский, FREE - безденежный", dataType = "String")
     private TARIFF_TYPE tariffType;
 
     private TariffDetail tariffDetail;
@@ -60,19 +61,20 @@ public class Ticket {
     @ApiModelProperty(required = true)
     private TicketSeatDetail ticketSeatDetail;
 
-    @ApiModelProperty(required = true, example = "true", value = "Статус электронной регистрации (код) билета. Значения: " +
-            "0 – не выполнена, " +
-            "1 – выполнена, " +
-            "2 – регистрация невозможна, выдан бумажный документ, " +
-            "3 – регистрация невозможна, " +
-            "5 – Невозможна, выполнен возврат в кассе, " +
-            "-1 – Неопределенный", dataType = "int")
-    private int registrationStatus;
+    @ApiModelProperty(required = true, example = "R0", value = "Статус электронной регистрации (код) билета. Значения: " +
+            "R0 – не выполнена, " +
+            "R1 – выполнена, " +
+            "R2 – регистрация невозможна, выдан бумажный документ, " +
+            "R3 – регистрация невозможна, " +
+            "R5 – Невозможна, выполнен возврат в кассе, " +
+            "R – Неопределенный", dataType = "String")
+    private REGISTRATION_TYPE registrationStatus;
+
     @ApiModelProperty(required = false, value = "Дата и время изменения статуса электронной регистрации билета", dataType = "Datetime")
     private Date registrationTime;
 
-    private TicketReturnDetail ticketReturn;
+    private ReturnTariffDetail returnTariffDetail;
 
-    @ApiModelProperty(required = true, value = "Список пассажиров билета")
+    @ApiModelProperty(required = true, value = "Список пассажиров в ЭПД")
     private List<Passenger> passengers;
 }

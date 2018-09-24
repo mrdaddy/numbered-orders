@@ -12,7 +12,7 @@ import java.util.Date;
 @ApiModel(description = "Дополнительная информация о возврате, заполняется только в случае, если указан параметр isFullData = true")
 @NoArgsConstructor
 @AllArgsConstructor
-public class TicketReturnDetail {
+public class ReturnTariffDetail {
     @ApiModelProperty(required = false, example = "05:21", value = "Время до отправления поезда в момент возврата заказа", dataType = "String")
     private String timeBeforeDeparture;
 

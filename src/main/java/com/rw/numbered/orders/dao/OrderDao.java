@@ -1,6 +1,8 @@
 package com.rw.numbered.orders.dao;
 
 import com.rw.numbered.orders.dto.order.Order;
+import com.rw.numbered.orders.dto.request.SearchOrderFilter;
+import com.rw.numbered.orders.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -19,8 +21,8 @@ public class OrderDao implements SQLQueries{
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-    public List<Order> getOrders(String orderType , Date departureDateMin, Date departureDateMax, String train,
-                                 String departureStationCode, String  arrivalStationCode) {
+    public List<Order> getOrders(SearchOrderFilter searchOrderFilter, User user) {
+
         List<Order> orders = new ArrayList<>();
         orders.add(new Order());
         return orders;

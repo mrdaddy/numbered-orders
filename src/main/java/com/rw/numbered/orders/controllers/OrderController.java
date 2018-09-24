@@ -1,6 +1,7 @@
 package com.rw.numbered.orders.controllers;
 
 import by.iba.railway.eticket.xml.exception.BusinessSystemException;
+import com.rw.numbered.orders.dto.request.SearchOrderFilter;
 import com.rw.numbered.orders.security.User;
 import com.rw.numbered.orders.dto.order.Order;
 import com.rw.numbered.orders.dto.request.OrderingInformation;
@@ -68,9 +69,9 @@ public class OrderController extends BaseController{
                             @ResponseHeader(name = "ETag", response = String.class, description = "Хеш для кэширования")}),
             @ApiResponse(code = 304, message = "Not Modified")
     })
-    @PreAuthorize("hasRole('U')")
+    @PreAuthorize("hasRole('U') or hasRole('L')")
     public Order getOrder(@PathVariable("orderId") @ApiParam(value="Уникальный идентификатор записи заказа", example = "1") long orderId,
-                          @RequestParam @ApiParam(value="Признак, указывающий, заполнять ли блоки TariffDetail и TicketReturnDetail", example = "true") boolean isFullData,
+                          @RequestParam @ApiParam(value="Признак, указывающий, заполнять ли блоки TariffDetail и ReturnTariffDetail", example = "true", defaultValue = "false") boolean isFullData,
                           @RequestHeader(name="IF-NONE-MATCH", required = false) @ApiParam(name="IF-NONE-MATCH", value = "ETag из предыдущего закэшированного запроса") String inm,
                           @RequestAttribute(value = "user", required = false) @ApiIgnore User user) {
         return orderService.getOrder(orderId, user);
@@ -85,16 +86,11 @@ public class OrderController extends BaseController{
                             @ResponseHeader(name = "ETag", response = String.class, description = "Хеш для кэширования")}),
             @ApiResponse(code = 304, message = "Not Modified")
     })
-    @PreAuthorize("hasRole('U')")
-    public List<Order> getOrders(@RequestParam @ApiParam(value="Фильтр для получения списка заказов пользователя по типу заказа. Значение: пусто - все заказы, upcoming - заказы с предстоящими поездками, past - заказы с прошедшими поездками, returned - возвращённые и частично возвращённые заказы", example = "past", defaultValue = "upcoming", allowableValues = "upcoming, past, returned") String orderType,
-                                 @RequestParam(required = false) @ApiParam(value="Фильтр для получения списка заказов с датой отправления больше либо равно указанной", example = "2018-11-12") @DateTimeFormat(pattern="yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) Date departureDateMin,
-                                 @RequestParam(required = false) @ApiParam(value="Фильтр для получения списка заказов с датой отправления меньше либо равно указанной", example = "2018-11-22") @DateTimeFormat(pattern="yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) Date departureDateMax,
-                                 @RequestParam(required = false) @ApiParam(value="Фильтр для получения списка заказов с указанным поездом", example = "001А") String train,
-                                 @RequestParam(required = false) @ApiParam(value="Фильтр для получения списка заказов с указанной станцией отправления", example = "2100276") String departureStationCode,
-                                 @RequestParam(required = false) @ApiParam(value="Фильтр для получения списка заказов с указанной станцией прибытия", example = "2100276") String arrivalStationCode,
+    @PreAuthorize("hasRole('U') or hasRole('L')")
+    public List<Order> getOrders(@RequestBody(required = false) SearchOrderFilter searchOrderFilter,
                                  @RequestHeader(name="IF-NONE-MATCH", required = false) @ApiParam(name="IF-NONE-MATCH", value = "ETag из предыдущего закэшированного запроса") String inm,
                                  @RequestAttribute(value = "user", required = false) @ApiIgnore User user)  throws BusinessSystemException {
-        return orderService.getOrders(orderType ,departureDateMin, departureDateMax, train, departureStationCode, arrivalStationCode, user);
+        return orderService.getOrders(searchOrderFilter, user);
     }
 
 }

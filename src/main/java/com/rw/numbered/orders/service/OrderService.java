@@ -6,6 +6,7 @@ import by.iba.railway.eticket.xml.objs.response.eticket.BuyTicketResponse;
 import com.rw.numbered.orders.dao.OrderDao;
 import com.rw.numbered.orders.dto.order.Order;
 import com.rw.numbered.orders.dto.request.OrderingInformation;
+import com.rw.numbered.orders.dto.request.SearchOrderFilter;
 import com.rw.numbered.orders.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,15 +63,13 @@ public class OrderService {
         return new Order();
     }
 
-    public List<Order> getOrders(@Valid @Size(max = 30) String orderType,
-                                 @Valid Date departureDateMin,
-                                 @Valid Date departureDateMax,
-                                 @Valid @Size( max=6) String train,
-                                 @Valid @Size(max=8) String departureStationCode,
-                                 @Valid @Size(max=8) String  arrivalStationCode,
+    public List<Order> getOrders(@Valid SearchOrderFilter searchOrderFilter,
                                  @Valid @NotNull User user) throws BusinessSystemException {
 
-        return orderDao.getOrders(orderType ,departureDateMin, departureDateMax, train, departureStationCode, arrivalStationCode);
+        if(searchOrderFilter == null) {
+            searchOrderFilter = SearchOrderFilter.builder().build();
+        }
+        return orderDao.getOrders(searchOrderFilter, user);
     }
 
 }
