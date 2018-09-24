@@ -34,18 +34,18 @@ public class Passenger {
     @Size(min = 1, max = 32)
     private String lastName;
 
-    @ApiModelProperty(example = "1", required = false, value = "Количество мест для данного пассажира", dataType = "String")
+    @ApiModelProperty(example = "1", required = true, value = "Количество мест для данного пассажира", dataType = "String")
     @Max(4)
     private int placesCount;
 
-    @ApiModelProperty(example = "M", required = false, value = "Пол пассажира (необходим для продажи по глобальным ценам и вагонам с признаком М/Ж)", dataType = "String")
+    @ApiModelProperty(example = "M", required = false, value = "Пол пассажира (необходим и обязателен для продажи по глобальным ценам, с вагонами с признаком М/Ж и в случае, когда параметр TICKET_PASSENGER_ADD_FIELDS = '1')", dataType = "String")
     private SEX_TYPE sex;
 
-    @ApiModelProperty(example = "1990-01-30", required = false, value = "Дата рождения пассажира (необходим для продажи по глобальным ценам, для детских билетов и билетов без мест)", dataType = "Date")
+    @ApiModelProperty(example = "1990-01-30", required = false, value = "Дата рождения пассажира (необходим и обязателен для продажи по глобальным ценам, для детских билетов и билетов без мест и в случае, когда параметр TICKET_PASSENGER_ADD_FIELDS = '1')", dataType = "Date")
     @Past
     private Date birthday;
 
-    @ApiModelProperty(example = "BLR", required = false, value = "Код государства выдачи документа пассажира из справочника “Справочник государств выдачи документа, удостоверяющего личность пассажира”, необходим для продажи по глобальным ценам", dataType = "String")
+    @ApiModelProperty(example = "BLR", required = false, value = "Код государства выдачи документа пассажира из справочника “Справочник государств выдачи документа, удостоверяющего личность пассажира”, необходим для продажи по глобальным ценам и в случае, когда параметр TICKET_PASSENGER_ADD_FIELDS = '1'", dataType = "String")
     @Size(max = 3)
     private String country = "BLR";
 

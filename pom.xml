@@ -203,7 +203,7 @@
                 <artifactId>swagger2markup-maven-plugin</artifactId>
                 <version>1.0.1</version>
                 <configuration>
-                    <swaggerInput>${swagger.directory}/api.json</swaggerInput>
+                    <swaggerInput>${swagger.directory}/numbered-orders.json</swaggerInput>
                     <outputFile>${asciidoctor.directory}/numbered-orders</outputFile>
                     <config>
                         <swagger2markup.markupLanguage>ASCIIDOC</swagger2markup.markupLanguage>
