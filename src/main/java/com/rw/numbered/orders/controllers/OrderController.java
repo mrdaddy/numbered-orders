@@ -56,7 +56,7 @@ public class OrderController extends BaseController{
     @ApiOperation(value = "Удаление неоплаченного заказа из корзины с аннулированием в АСУ Экспресс", authorizations = @Authorization("jwt-auth"))
     @ResponseStatus( HttpStatus.ACCEPTED)
     @PreAuthorize("hasRole('U')")
-    public void deleteOrder(@PathVariable("orderId") @ApiParam(value="Уникальный идентификатор записи заказа", example = "1") long orderId,
+    public void deleteOrder(@PathVariable("orderId") @ApiParam(value="Уникальный идентификатор записи заказа", example = "1", required = true) long orderId,
                             @RequestAttribute(value = "user", required = false) @ApiIgnore User user) {
         orderService.deleteOrder(orderId, user);
     }
@@ -71,7 +71,7 @@ public class OrderController extends BaseController{
             @ApiResponse(code = 304, message = "Not Modified")
     })
     @PreAuthorize("hasRole('U') or hasRole('L')")
-    public Order getOrder(@PathVariable("orderId") @ApiParam(value="Уникальный идентификатор записи заказа", example = "1") long orderId,
+    public Order getOrder(@PathVariable("orderId") @ApiParam(value="Уникальный идентификатор записи заказа", example = "1", required = true) long orderId,
                           @RequestParam @ApiParam(value="Признак, указывающий, заполнять ли блоки TariffDetail и ReturnTariffDetail", example = "true", defaultValue = "false") boolean isFullData,
                           @RequestHeader(name="IF-NONE-MATCH", required = false) @ApiParam(name="IF-NONE-MATCH", value = "ETag из предыдущего закэшированного запроса") String inm,
                           @RequestAttribute(value = "user", required = false) @ApiIgnore User user) {

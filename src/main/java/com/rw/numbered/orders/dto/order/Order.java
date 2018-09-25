@@ -44,7 +44,7 @@ public class Order extends OrderShort{
     @ApiModelProperty(required = false, example = "ТРЕБУЕТСЯ ПАСПОРТ.", value = "Дополнительные признаки из АСУ Экспресс (например, транзит через СНГ)", dataType = "String")
     private String addSign;
 
-    @ApiModelProperty(required = false, example = "СК СКР ФИРМ", value = "Тип поезда (скорый, скоростной, фирменный) через пробел на языке пользователя в момент создания заказа", dataType = "String")
+    @ApiModelProperty(required = false, example = "СК СКР ФИРМ", value = "Тип поезда (скорый, скоростной, фирменный) через пробел", dataType = "String")
     private String trainType;
 
 
