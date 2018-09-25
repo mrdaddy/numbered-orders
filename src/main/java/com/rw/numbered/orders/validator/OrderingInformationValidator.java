@@ -12,10 +12,11 @@ public class OrderingInformationValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors e) {
-
-        OrderingInformation orderingInformation = (OrderingInformation) target;
-        if(orderingInformation.getArrStationCode().equals("string")) {
-            e.reject("gvCode","test validation");
+        if(target instanceof OrderingInformation) {
+            OrderingInformation orderingInformation = (OrderingInformation) target;
+            if (orderingInformation.getArrStationCode().equals("string")) {
+                e.reject("gvCode", "test validation");
+            }
         }
     }
 }

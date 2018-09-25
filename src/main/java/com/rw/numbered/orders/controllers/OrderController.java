@@ -1,6 +1,7 @@
 package com.rw.numbered.orders.controllers;
 
 import by.iba.railway.eticket.xml.exception.BusinessSystemException;
+import com.rw.numbered.orders.dto.order.OrderShort;
 import com.rw.numbered.orders.dto.request.SearchOrderFilter;
 import com.rw.numbered.orders.security.User;
 import com.rw.numbered.orders.dto.order.Order;
@@ -28,8 +29,8 @@ public class OrderController extends BaseController{
     @Autowired
     OrderService orderService;
 
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
+    @InitBinder("orderingInformation")
+    protected void initOrderingInformationBinder(WebDataBinder binder) {
         binder.addValidators(new OrderingInformationValidator());
     }
 
@@ -87,9 +88,9 @@ public class OrderController extends BaseController{
             @ApiResponse(code = 304, message = "Not Modified")
     })
     @PreAuthorize("hasRole('U') or hasRole('L')")
-    public List<Order> getOrders(@RequestBody(required = false) SearchOrderFilter searchOrderFilter,
-                                 @RequestHeader(name="IF-NONE-MATCH", required = false) @ApiParam(name="IF-NONE-MATCH", value = "ETag из предыдущего закэшированного запроса") String inm,
-                                 @RequestAttribute(value = "user", required = false) @ApiIgnore User user)  throws BusinessSystemException {
+    public List<OrderShort> getOrders(@ApiParam(name="searchOrderFilter", required = false) SearchOrderFilter searchOrderFilter,
+                                      @RequestHeader(name="IF-NONE-MATCH", required = false) @ApiParam(name="IF-NONE-MATCH", value = "ETag из предыдущего закэшированного запроса") String inm,
+                                      @RequestAttribute(value = "user", required = false) @ApiIgnore User user)  throws BusinessSystemException {
         return orderService.getOrders(searchOrderFilter, user);
     }
 

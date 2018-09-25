@@ -1,6 +1,7 @@
 package com.rw.numbered.orders.dao;
 
 import com.rw.numbered.orders.dto.order.Order;
+import com.rw.numbered.orders.dto.order.OrderShort;
 import com.rw.numbered.orders.dto.request.SearchOrderFilter;
 import com.rw.numbered.orders.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,9 @@ public class OrderDao implements SQLQueries{
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-    public List<Order> getOrders(SearchOrderFilter searchOrderFilter, User user) {
+    public List<OrderShort> getOrders(SearchOrderFilter searchOrderFilter, User user) {
 
-        List<Order> orders = new ArrayList<>();
+        List<OrderShort> orders = new ArrayList<>();
         orders.add(new Order());
         return orders;
     }

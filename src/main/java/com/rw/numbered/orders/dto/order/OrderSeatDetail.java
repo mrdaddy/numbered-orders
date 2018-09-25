@@ -13,9 +13,6 @@ import lombok.NoArgsConstructor;
 public class OrderSeatDetail {
     public enum SEX_TYPES {MALE, FEMALE, MIXED}
 
-    @ApiModelProperty(example = "1", required = true, value = "Количество мест", dataType = "int")
-    private int seatCount;
-
     @ApiModelProperty(example = "017;018;019;020", required = false, value = "Номера мест (через точку с запятой)", dataType = "String")
     private String seats;
 
