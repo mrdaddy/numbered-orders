@@ -5,6 +5,7 @@ import by.iba.railway.eticket.xml.exception.XmlParserSystemException;
 import com.rw.numbered.orders.dto.ErrorMessage;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ import java.util.List;
         @ApiResponse(code = 503, message = "Service Unavailable", response = ErrorMessage.class, responseContainer = "List"),
         @ApiResponse(code = 504, message = "Gateway Timeout")
 })
+@Slf4j
 public class BaseController {
     public enum ERROR_PREFIX {validation, system, express}
     @ExceptionHandler(ConstraintViolationException.class)
@@ -73,11 +75,14 @@ public class BaseController {
     protected ResponseEntity<?> handleConnectException(ConnectException e) {
         List<ErrorMessage> errors = new ArrayList<>();
         errors.add(new ErrorMessage(ERROR_PREFIX.system+".database_error", e.getMessage()));
+        log.error("handleConnectException",e);
         return new ResponseEntity(errors, HttpStatus.GATEWAY_TIMEOUT);
     }
 
     @ExceptionHandler(EmptyResultDataAccessException.class)
     protected ResponseEntity<?> handleDataAccessException(EmptyResultDataAccessException e) {
+        log.error("handleSQLException",e);
+
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
@@ -85,6 +90,7 @@ public class BaseController {
     protected ResponseEntity<?> handleSQLException(SQLException e) {
         List<ErrorMessage> errors = new ArrayList<>();
         errors.add(new ErrorMessage(ERROR_PREFIX.system+".database_error", e.getMessage()));
+        log.error("handleSQLException",e);
         return new ResponseEntity(errors, HttpStatus.SERVICE_UNAVAILABLE);
     }
 

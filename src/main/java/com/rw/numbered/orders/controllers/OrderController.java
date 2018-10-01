@@ -54,7 +54,7 @@ public class OrderController extends BaseController{
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/{orderId}")
     @ApiOperation(value = "Удаление неоплаченного заказа из корзины с аннулированием в АСУ Экспресс", authorizations = @Authorization("jwt-auth"))
-    @ResponseStatus( HttpStatus.ACCEPTED)
+    @ResponseStatus( HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('U')")
     public void deleteOrder(@PathVariable("orderId") @ApiParam(value="Уникальный идентификатор записи заказа", example = "1", required = true) long orderId,
                             @RequestAttribute(value = "user", required = false) @ApiIgnore User user) {

@@ -42,6 +42,9 @@ public class OrderingInformation {
     @ApiModelProperty(example = "22:11", required = true, value = "Время отправления со станции пассажира", dataType = "Time")
     private String departureTime;
 
+    @ApiModelProperty(example = "2018-12-02", required = false, value = "Дата отправления поезда с начальной станции. Берётся из 61/62 справки: <DepartureTrain Date=\"21.12.2009\" /> ", dataType = "Date")
+    private Date startingDate;
+
     @ApiModelProperty(example = "2100276", required = true, value = "Код станции отправления", dataType = "String")
     @NotNull @Size(min=7,max=8)
     private String depStationCode;

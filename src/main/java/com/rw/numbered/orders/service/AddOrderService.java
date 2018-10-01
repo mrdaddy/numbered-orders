@@ -12,23 +12,29 @@ import by.iba.railway.eticket.xml.objs.request.type.common.TrainType;
 import by.iba.railway.eticket.xml.objs.response.eticket.BuyTicketResponse;
 import by.iba.railway.eticket.xml.services.EticketService;
 import by.iba.railway.eticket.xml.services.ExpressService;
-import com.rw.numbered.orders.dao.OrderDao;
-import com.rw.numbered.orders.dao.ParameterDao;
+import com.rw.numbered.orders.dao.*;
+import com.rw.numbered.orders.dto.order.Order;
 import com.rw.numbered.orders.dto.request.OrderingInformation;
 import com.rw.numbered.orders.dto.request.TripPassenger;
 import com.rw.numbered.orders.dto.request.TripSeatDetail;
 import com.rw.numbered.orders.security.User;
+import com.rw.numbered.orders.service.decorators.BuyTicketResponseDecorator;
+import com.rw.numbered.orders.service.utils.CarNumFormatter;
 import com.rw.numbered.orders.service.utils.DateTimeConverter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
 @Service
+@Slf4j
 public class AddOrderService {
     private ExpressService ws = null;
     private EticketService wsP = null;
@@ -52,7 +58,13 @@ public class AddOrderService {
     ParameterDao parameterDao;
 
     @Autowired
+    TranslateDao translateDao;
+
+    @Autowired
     OrderDao orderDao;
+
+    @Autowired
+    MonitoringDao monitoringDao;
 
     protected void connectToService() {
         if (ws == null) {
@@ -67,8 +79,24 @@ public class AddOrderService {
         }
     }
 
-    public BuyTicketResponse buyTicket(OrderingInformation orderingInformation, User user) throws XmlParserSystemException, BusinessSystemException {
+    public Order buyOrder(OrderingInformation orderingInformation, User user) throws Exception {
+        BuyTicketResponseDecorator etInfo = buyOrderExpress(orderingInformation, user);
+        Order order = null;
+        try {
+            long id = orderDao.addOrder(etInfo, orderingInformation, user);
+            order = orderDao.getOrder(id, user);
+        } catch (Exception e) {
+            if (monitoringDao.checkMonitoringValue(Monitoring.Type.DB2_ERR5_MONITOR)) {
+                monitoringDao.sendEmail(Monitoring.Type.DB2_ERR5_MONITOR, "",
+                        etInfo.getOrder().getExpressID(), user.getLogin(), "", "", e.getMessage(),false);
+            }
+            orderDao.addTransLogBuyingError(user);
+            throw e;
+        }
+        return order;
+    }
 
+    private BuyTicketResponseDecorator buyOrderExpress(OrderingInformation orderingInformation, User user) throws XmlParserSystemException, BusinessSystemException {
         RequirementsType requirements = createRequirements(orderingInformation);
         PassengersType passengersType = createPassengers(orderingInformation, user.getLanguage());
         connectToService();
@@ -81,7 +109,42 @@ public class AddOrderService {
                 requirements,
                 "",
                 passengersType);
-        return etInfo;
+
+        if (etInfo.getError() != null) {
+            throw new BusinessSystemException(etInfo.getError().getCode(),
+                    "", etInfo.getError().getValue());
+        }
+        BuyTicketResponseDecorator etInfoDec = createBuyTicketResponseDecorator(etInfo, orderingInformation.getDepartureDate(), user.getLanguage());
+        return etInfoDec;
+    }
+
+    private BuyTicketResponseDecorator createBuyTicketResponseDecorator(BuyTicketResponse etInfo, Date departureDate, String lang) {
+        BuyTicketResponseDecorator etInfoDec = new BuyTicketResponseDecorator(etInfo);
+        etInfoDec.setDepStationName(translateDao.getStationNameByCode(etInfoDec.getDeparture().getStationCode(), lang));
+        etInfoDec.setArrStationName(translateDao.getStationNameByCode(etInfoDec.getArrival().getStationCode(), lang));
+        if(etInfoDec.getCar() != null) {
+            if(etInfoDec.getCar().getOwner() !=null && !StringUtils.isEmpty(etInfoDec.getCar().getOwner().getValue())) {
+                etInfoDec.getCar().getOwner().setValue(translateDao.getExpressError(etInfoDec.getCar().getOwner().getValue(), lang));
+            }
+            if(etInfoDec.getCar().getCarrier() !=null && !StringUtils.isEmpty(etInfoDec.getCar().getCarrier().getValue())) {
+                etInfoDec.getCar().getCarrier().setValue(translateDao.getExpressError(etInfoDec.getCar().getCarrier().getValue(), lang));
+            }
+            if(etInfoDec.getCar().getType() != null) {
+                etInfoDec.setCarTypeName(translateDao.getCarTypeName(etInfoDec.getCarTypeLetter(), lang));
+            }
+
+        }
+        if(!StringUtils.isEmpty(etInfo.getSignGA())) {
+            etInfoDec.setSignGA(translateDao.getExpressError(etInfoDec.getSignGA(), lang));
+        }
+        if(!StringUtils.isEmpty(etInfo.getSignGB())) {
+            etInfoDec.setSignGB(translateDao.getExpressError(etInfoDec.getSignGB(), lang));
+        }
+        etInfoDec.setCurrency(parameterDao.getNationalCurrencyCode());
+        etInfoDec.setTimeOffset(parameterDao.getCountryTimeZoneOffset(etInfoDec.getDeparture().getStationCode(), departureDate, lang));
+        etInfoDec.setPaymentTime(parameterDao.getDefaultPaymentTime());
+        etInfoDec.setDenominationPassed(parameterDao.isDenominationPassed());
+        return etInfoDec;
     }
 
     private TrainType createTrainType(String train, String carTrainLetter) {
@@ -98,7 +161,7 @@ public class AddOrderService {
     private CarType createCarType(OrderingInformation orderingInformation) {
         CarType carType = new CarType();
         carType.setType(orderingInformation.getTripCarriage().getTypeCode());
-        carType.setNumber(String.valueOf(orderingInformation.getTripCarriage().getNo()));
+        carType.setNumber(CarNumFormatter.format(orderingInformation.getTripCarriage().getNo()));
         carType.setClassService(orderingInformation.getTripCarriage().getServiceClassCode());
         if(orderingInformation.isGlobalPrice() && !StringUtils.isEmpty(orderingInformation.getTripCarriage().getServiceClassIntCode())) {
             carType.setClassServiceInt(orderingInformation.getTripCarriage().getServiceClassIntCode());
@@ -301,7 +364,7 @@ public class AddOrderService {
             name+="=" + (!StringUtils.isEmpty(pass.getPatronymic()) ? pass.getPatronymic() : "-");
         }
         passDoc.setName(name);
-        passDoc.setDocType(orderDao.getExpressExpressDocType(pass.getDocumentType()));
+        passDoc.setDocType(parameterDao.getExpressExpressDocType(pass.getDocumentType()));
 
         if(pass.getBirthday() != null) {
             passDoc.setBirthday(DateTimeConverter.getDateFullString(pass.getBirthday()));

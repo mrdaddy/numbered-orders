@@ -8,6 +8,7 @@ import com.rw.numbered.orders.dto.order.Order;
 import com.rw.numbered.orders.dto.order.OrderShort;
 import com.rw.numbered.orders.dto.request.OrderingInformation;
 import com.rw.numbered.orders.dto.request.SearchOrderFilter;
+import com.rw.numbered.orders.security.JwtTokenProvider;
 import com.rw.numbered.orders.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,27 +34,25 @@ public class OrderService {
     @Autowired
     AddOrderService addOrderService;
 
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
+
     public Order createOrderAuth(@Valid OrderingInformation orderingInformation, @Valid User user) {
+        Order order;
         try {
-            BuyTicketResponse etInfo = addOrderService.buyTicket(orderingInformation, user);
-        } catch (XmlParserSystemException e) {
-            throw new RuntimeException(e);
-        } catch (BusinessSystemException e) {
+            order = addOrderService.buyOrder(orderingInformation, user);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return new Order();
+        return order;
     }
 
     public Order createOrderNotAuth(@Valid OrderingInformation orderingInformation, @Valid @NotNull @Email @Size(max=64) String email, @Valid @Size(max=255) String phone) {
-        User user = userService.createUser(email, phone);
-        try {
-            BuyTicketResponse etInfo = addOrderService.buyTicket(orderingInformation, user);
-        } catch (XmlParserSystemException e) {
-            throw new RuntimeException(e);
-        } catch (BusinessSystemException e) {
-            throw new RuntimeException(e);
-        }
-        return new Order();
+        String jwt = userService.registerUser(email, phone);
+        User user = jwtTokenProvider.getUser(jwt);
+        Order order = createOrderAuth(orderingInformation, user);
+        order.setJwtToken(jwt);
+        return order;
     }
 
     public void deleteOrder(@Valid @Min(1) long orderId, @Valid User user) {

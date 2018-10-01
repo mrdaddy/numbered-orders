@@ -5,7 +5,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    public User createUser(String email, String phone) {
-        return new User();
+    public String registerUser(String email, String phone) {
+        String jwt = "test";
+        return jwt;
     }
 }

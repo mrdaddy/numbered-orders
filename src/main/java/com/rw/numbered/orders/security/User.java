@@ -14,4 +14,5 @@ public class User {
    private String login;
    private String email;
    private String language;
+   private String ip;
 }
