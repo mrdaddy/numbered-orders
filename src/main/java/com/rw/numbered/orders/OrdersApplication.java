@@ -1,7 +1,9 @@
 package com.rw.numbered.orders;
 
-import com.rw.numbered.orders.security.JwtTokenFilter;
 import com.rw.numbered.orders.security.JwtTokenProvider;
+import io.jaegertracing.Configuration;
+import io.opentracing.Tracer;
+import io.opentracing.util.GlobalTracer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,7 +11,6 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
-import javax.servlet.Filter;
 
 @SpringBootApplication
 public class OrdersApplication {
@@ -29,4 +30,12 @@ public class OrdersApplication {
         frb.setOrder(2);
         return frb;
     }
+
+    @Bean
+    public boolean configureGlobalTracer()	{
+        Tracer tracer = Configuration.fromEnv().getTracer();
+        GlobalTracer.register(tracer);
+        return true;
+    }
+
 }

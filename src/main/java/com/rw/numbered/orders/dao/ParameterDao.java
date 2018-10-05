@@ -3,6 +3,7 @@ package com.rw.numbered.orders.dao;
 import com.rw.numbered.orders.service.utils.DBUtils;
 import com.rw.numbered.orders.service.utils.TimeZoneOffsetCalculator;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
+@Slf4j
 public class ParameterDao implements SQLQueries{
     public final static String TICKET_GP_FREE_TARIFF = "TICKET_GP_FREE_TARIFF";
     public final static String TICKET_GP_CHILD_TARIFF = "TICKET_GP_CHILD_TARIFF";
@@ -81,8 +83,13 @@ public class ParameterDao implements SQLQueries{
 
     public String getExpressExpressDocType(String code) {
         Map<String, Object> params = new HashMap<>();
+        String expressCode = code;
+    try {
         params.put("CODE", code);
-        String expressCode = jdbcTemplate.queryForObject(DOCUMENT_TYPE_EXPRESS_NO, params, (rs, rowNum) -> rs.getString("EXPRESS_CODE"));
+        expressCode = jdbcTemplate.queryForObject(DOCUMENT_TYPE_EXPRESS_NO, params, (rs, rowNum) -> rs.getString("EXPRESS_CODE"));
+    } catch (EmptyResultDataAccessException e1) {
+        log.error("getExpressExpressDocType: can't find value for: code="+code);
+    }
         return  expressCode;
     }
 
@@ -90,9 +97,9 @@ public class ParameterDao implements SQLQueries{
         String nationalCarrierCountryCode = getNationalCarrierCountryCode();
         String countryCode = !StringUtils.isEmpty(stationCode)?stationCode.substring(0,2):nationalCarrierCountryCode;
         Integer offset = null;
+        Map<String, Object> params = new HashMap<String, Object>();
         try {
             if(!countryCode.equals(nationalCarrierCountryCode)) {
-                Map<String, Object> params = new HashMap<String, Object>();
                 params.put("CODE", countryCode);
                 String query = DBUtils.formatQueryWithParams(COUNTRY_TIME_ZONE, language.toUpperCase());
                 offset = jdbcTemplate
@@ -103,6 +110,7 @@ public class ParameterDao implements SQLQueries{
                                 });
             }
         } catch (EmptyResultDataAccessException e1) {
+            log.error("getCountryTimeZoneOffset: can't find value for: params="+params);
         }
         if(offset == null) {
             offset = 0;
